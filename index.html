@@ -109,6 +109,14 @@
   td.r b { font-size:13px; }
   td.r .pct { display:block; color:var(--muted); font-size:11px; }
 
+  .share { display:flex; height:18px; border-radius:6px; overflow:hidden; margin-bottom:6px; }
+  .share div { border-right:2px solid var(--surface); }
+  .share div:last-child { border-right:none; }
+  .g7 td .plus { font-size:13px; font-weight:800; color:#4ecb9d; }
+  .g7 td .tot { display:block; color:var(--muted); font-size:11px; }
+  .badge.p { background:rgba(213,81,129,0.16); color:#e58bab; }
+  .badge.n { background:rgba(195,194,183,0.14); color:var(--ink-2); }
+
   .goal { margin-bottom:16px; }
   .goal .g-head { display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px; }
   .goal .g-head b { font-weight:700; }
@@ -221,6 +229,33 @@
       <thead><tr><th>영상</th><th class="r">조회수</th></tr></thead>
       <tbody id="videos"></tbody>
     </table>
+  </div>
+
+  <!-- 롱폼 심층: 최근 7일 성장 -->
+  <div class="card">
+    <h2>롱폼 심층 — 최근 7일, 뭐가 실제로 컸나</h2>
+    <div class="sub">영상별 조회수 실측 비교 (6.27 기록 → 7.4 실측) · 롱폼 34편</div>
+    <div class="vs-title" style="margin-bottom:7px">1주 증가 +6,003회의 구성</div>
+    <div class="legend" style="margin-bottom:8px">
+      <span><i style="background:var(--blue)"></i>히트작 1편 57%</span>
+      <span><i style="background:var(--aqua)"></i>모음집 6편 17%</span>
+      <span><i style="background:#55544f"></i>신곡·그 외 26%</span>
+    </div>
+    <div class="share">
+      <div style="width:57%; background:var(--blue)"></div>
+      <div style="width:17%; background:var(--aqua)"></div>
+      <div style="flex:1; background:#55544f"></div>
+    </div>
+    <div class="vs-title" style="margin:18px 0 4px">1주 성장 TOP 8</div>
+    <table class="g7">
+      <thead><tr><th>영상</th><th class="r">1주 증가</th></tr></thead>
+      <tbody id="g7rows"></tbody>
+    </table>
+    <div style="height:14px"></div>
+    <div class="insight"><div class="ico">🏆</div><div><b>히트작이 아직 안 식었다</b><p>「내 사랑 내 곁에」 락발라드가 하루 490회씩, 혼자 롱폼 성장의 57%. 공개 3주가 지났는데 속도가 그대로입니다. 같은 포맷의 후속(여자 목소리 재해석 락발라드 2탄)이 가장 확실한 베팅.</p></div></div>
+    <div class="insight"><div class="ico">📀</div><div><b>모음집이 2등 그룹 — 이번 주 발견</b><p>22곡 연속듣기는 공개 1주 만에 모든 신곡을 제쳤고, 2집 전곡 모음은 하루당 기준 신작 1등. 길이가 길어 수익화 조건(시청 4,000시간)을 벌어주는 주력이기도 합니다.</p></div></div>
+    <div class="insight"><div class="ico">🔗</div><div><b>신곡은 첫 주 +100~170회 — 쇼츠와 같이 움직인다</b><p>신곡 중 잘 큰 곡(모르는 척·늦지 않았어·오늘은 안되겠다·빈자리만 커져)은 전부 쇼츠 TOP10에 오른 곡. 쇼츠가 뜨면 롱폼이 따라 오르는 퍼널이 신곡에서도 확인됐습니다.</p></div></div>
+    <div class="insight"><div class="ico">⏸️</div><div><b>옛 싱글은 멈춤 — 되살리는 통로는 모음집뿐</b><p>6월 초~중순 싱글들은 주 +10~50회 수준. 싱글의 수명은 약 1주. 히트곡을 1번 트랙으로 앞세운 테마 모음집으로 옛 곡에 두 번째 생명을 주는 게 답입니다.</p></div></div>
   </div>
 
   <!-- 수익화 로드맵 -->
@@ -367,6 +402,26 @@ document.getElementById("videos").innerHTML = VIDEOS.map(([t,type,d,ret,v],i)=>`
       <span class="title">${i+1}. ${t}</span>
     </td>
     <td class="r"><b>${v}</b><span class="pct">${ret} 시청</span></td>
+  </tr>`).join("");
+
+// ── 롱폼 7일 성장 TOP 8 ─────────────────
+const G7 = [
+  ["내 사랑 내 곁에 (락발라드 Ver.) — 차 안에서 듣다가 결국 갓길에","히트",3423,"12,218"],
+  ["윤하경 위로의 노래 22곡 연속듣기 · 1시간 13분","모음집",414,"426"],
+  ["윤하경 2집 전곡 모음 (끊김 없이 듣는 감성 발라드)","모음집",231,"232"],
+  ["새벽 첫차 — 50대 가장이 끝내 무너진 노래","싱글",208,"1,028"],
+  ["모르는 척 — 친구라는 이름 뒤에 숨긴 마음","신곡",171,"172"],
+  ["윤하경 위로의 노래 11곡 연속듣기","모음집",168,"819"],
+  ["내 사랑 내 곁에 · 1시간 연속 반복","모음집",138,"593"],
+  ["늦지 않았어 — 괜찮은 척 웃던 하루도 버틴 거였죠","신곡",118,"118"]
+];
+document.getElementById("g7rows").innerHTML = G7.map(([t,type,d,tot],i)=>`
+  <tr>
+    <td style="padding-right:10px">
+      <span class="badge ${type==="히트"?"s":type==="모음집"?"l":type==="신곡"?"p":"n"}">${type}</span>
+      <span class="title">${i+1}. ${t}</span>
+    </td>
+    <td class="r"><span class="plus">+${d.toLocaleString("ko-KR")}</span><span class="tot">총 ${tot}회</span></td>
   </tr>`).join("");
 
 // ── 막대 채우기 애니메이션 ───────────────

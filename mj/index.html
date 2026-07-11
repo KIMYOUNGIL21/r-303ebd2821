@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>미드저니 프롬프트 생성기 — 윤하경 비주얼</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Pretendard','Pretendard Variable','Malgun Gothic',sans-serif;
+    background:#101216; color:#e8e6e1; min-height:100vh; padding:32px 16px 80px;
+  }
+  .wrap { max-width:860px; margin:0 auto; }
+  h1 { font-size:22px; font-weight:800; letter-spacing:-0.5px; }
+  h1 small { font-size:13px; font-weight:400; color:#8b8f98; margin-left:10px; }
+  .sub { color:#8b8f98; font-size:13px; margin-top:6px; line-height:1.6; }
+
+  .panel { background:#181b21; border:1px solid #262a33; border-radius:14px; padding:20px; margin-top:20px; }
+  .row { margin-bottom:18px; }
+  .row:last-child { margin-bottom:0; }
+  .label { font-size:13px; font-weight:700; color:#aab0bb; margin-bottom:9px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip {
+    padding:8px 14px; border-radius:99px; border:1px solid #2e333e; background:#1e222a;
+    color:#c9cdd5; font-size:14px; cursor:pointer; user-select:none; transition:all .12s;
+  }
+  .chip:hover { border-color:#4a5160; }
+  .chip.on { background:#e8e6e1; color:#15171c; border-color:#e8e6e1; font-weight:700; }
+
+  .go {
+    display:block; width:100%; margin-top:22px; padding:16px; border:none; border-radius:12px;
+    background:#e8e6e1; color:#15171c; font-size:17px; font-weight:800; cursor:pointer;
+    font-family:inherit; transition:transform .08s;
+  }
+  .go:active { transform:scale(0.99); }
+
+  .card { background:#181b21; border:1px solid #262a33; border-radius:14px; padding:18px 20px; margin-top:14px; }
+  .card-top { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; }
+  .card-title { font-size:14px; font-weight:700; color:#e8e6e1; }
+  .card-title .tag { font-size:12px; font-weight:400; color:#8b8f98; margin-left:8px; }
+  .btns { display:flex; gap:8px; flex-shrink:0; }
+  .mini {
+    padding:7px 13px; border-radius:8px; border:1px solid #2e333e; background:#1e222a;
+    color:#c9cdd5; font-size:13px; cursor:pointer; font-family:inherit; transition:all .12s;
+  }
+  .mini:hover { border-color:#4a5160; }
+  .mini.copied { background:#2f6b45; border-color:#2f6b45; color:#fff; }
+  .prompt {
+    font-size:13px; line-height:1.7; color:#b9bec8; background:#111318;
+    border-radius:10px; padding:14px; word-break:break-word;
+    font-family:Consolas,'Pretendard',monospace;
+  }
+  .empty { text-align:center; color:#565b66; padding:50px 0; font-size:14px; }
+  .tip { margin-top:26px; font-size:12.5px; color:#6d727d; line-height:1.9; }
+  .tip b { color:#9aa0ab; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>미드저니 프롬프트 생성기 <small>윤하경 · 실사 감성 인물컷</small></h1>
+  <div class="sub">감정만 골라도 됩니다. 나머지는 "자동"으로 두면 어울리는 걸 알아서 섞어요. → 아래 큰 버튼</div>
+
+  <div class="panel">
+    <div class="row">
+      <div class="label">감정 (곡 분위기)</div>
+      <div class="chips" id="emo"></div>
+    </div>
+    <div class="row">
+      <div class="label">장면</div>
+      <div class="chips" id="scene"></div>
+    </div>
+    <div class="row">
+      <div class="label">시간대</div>
+      <div class="chips" id="time"></div>
+    </div>
+    <div class="row">
+      <div class="label">비율</div>
+      <div class="chips" id="ratio"></div>
+    </div>
+    <div class="row">
+      <div class="label">제목 넣을 여백 (썸네일용)</div>
+      <div class="chips" id="space"></div>
+    </div>
+    <button class="go" onclick="generate()">프롬프트 6개 생성</button>
+  </div>
+
+  <div id="out"><div class="empty">위에서 감정을 고르고 버튼을 눌러주세요</div></div>
+
+  <div class="tip">
+    <b>사용법</b> · 프롬프트 옆 [복사] → 미드저니에서 <b>/imagine</b> 뒤에 붙여넣기.<br>
+    <b>팁</b> · 마음에 드는 구도가 나오면 그 프롬프트를 고정하고 여러 번 돌리세요. 실사 느낌이 약하면 <b>--style raw</b>가 빠졌는지 확인.<br>
+    <b>파일 위치</b> · D:\work\ai-singer\미드저니_프롬프트생성기.html (더블클릭으로 열림)
+  </div>
+</div>
+
+<script>
+// ───────── 데이터 ─────────
+const EMOTIONS = [
+  { id:'heartbreak', name:'이별·그리움' },
+  { id:'regret',     name:'미련·후회' },
+  { id:'flutter',    name:'설렘·첫사랑' },
+  { id:'comfort',    name:'잔잔한 위로' },
+  { id:'alone',      name:'혼자만의 밤' },
+  { id:'letgo',      name:'체념·담담함' },
+];
+
+const TIMES = [
+  { id:'auto', name:'자동' },
+  { id:'dawn', name:'새벽' },
+  { id:'day',  name:'낮' },
+  { id:'dusk', name:'노을' },
+  { id:'night',name:'밤' },
+];
+
+const RATIOS = [
+  { id:'16:9', name:'가로 16:9 (썸네일)' },
+  { id:'9:16', name:'세로 9:16 (쇼츠)' },
+];
+
+const SPACES = [
+  { id:'none',  name:'없음 (인물 중심)' },
+  { id:'right', name:'오른쪽 비우기' },
+  { id:'left',  name:'왼쪽 비우기' },
+];
+
+// 장면: times = 가능한 시간대, emos = 어울리는 감정
+const SCENES = [
+  { id:'rain_alley', name:'비 오는 밤 골목', times:['night'], emos:['heartbreak','regret','alone'],
+    desc:{ night:'standing in a narrow rain-soaked city alley at night, light rain falling, wet asphalt reflecting distant amber streetlights and blurred car headlights' } },
+  { id:'neon_street', name:'네온 도시밤', times:['night'], emos:['regret','alone','heartbreak'],
+    desc:{ night:'on a quiet city street at night after rain, colorful neon signs melting into soft pink and blue bokeh behind her, wet pavement glowing with reflections' } },
+  { id:'riverside', name:'강변 야경', times:['night','dusk'], emos:['heartbreak','comfort','alone'],
+    desc:{ night:'leaning on a riverside railing at night, warm city lights shimmering across the dark water behind her, a gentle river breeze',
+           dusk:'leaning on a riverside railing at dusk, the last violet light fading over the water, distant bridge lights just turning on' } },
+  { id:'sea', name:'바닷가', times:['dawn','day','dusk'], emos:['heartbreak','letgo','flutter'],
+    desc:{ dawn:'standing alone on a quiet beach at pale dawn, soft fog over a grey-blue sea, cold sea wind',
+           day:'standing by the bright sea on a hazy day, waves and a soft horizon behind her, sea wind in her hair',
+           dusk:'standing by the sea at sunset, warm orange light on the water, hair blowing in the salt wind' } },
+  { id:'cafe', name:'카페 창가', times:['day','night'], emos:['comfort','flutter','regret'],
+    desc:{ day:'sitting by a large cafe window in soft daylight, chin resting on her hand, blurred street and passersby outside the glass',
+           night:'sitting by a cafe window at night, warm tungsten interior light on her face, city lights blurred into bokeh outside' } },
+  { id:'bus', name:'버스 창가', times:['day','dusk'], emos:['comfort','letgo','flutter'],
+    desc:{ day:'sitting by a bus window, soft afternoon light through the glass, a blurred city and distant mountains passing by',
+           dusk:'sitting by a bus window at sunset, golden light flickering across her face as the city passes in a warm blur' } },
+  { id:'spring', name:'봄꽃 언덕', times:['day'], emos:['flutter','comfort'],
+    desc:{ day:'standing on a hillside with white spring blossoms, hazy bright sunlight, a softly blurred old town rooftops below' } },
+  { id:'field', name:'노을 들판', times:['dusk'], emos:['flutter','comfort','letgo'],
+    desc:{ dusk:'standing in a grassy field with wildflowers at golden hour, warm backlight glowing through her hair, soft hills behind' } },
+  { id:'crowd', name:'인파 속 뒤돌아봄', times:['night'], emos:['regret','heartbreak'],
+    desc:{ night:'in the middle of a busy city street at night, turning back over her shoulder as if she heard a familiar voice, the crowd and shop lights dissolved into motion blur around her' } },
+  { id:'window_rain', name:'비 오는 창가 (실내)', times:['day','night'], emos:['heartbreak','alone','letgo'],
+    desc:{ day:'standing by a large window on a rainy day, raindrops streaking the glass, soft grey light on her face, the city blurred outside',
+           night:'by a rain-streaked window at night, dim room, cold blue city light and bokeh through the wet glass on her face' } },
+  { id:'dawn_mist', name:'새벽 안개 강가', times:['dawn'], emos:['heartbreak','letgo'],
+    desc:{ dawn:'standing by a misty river at dawn, heavy fog rolling low over the water, pale blue-grey first light' } },
+  { id:'night_walk', name:'밤 산책로', times:['night'], emos:['comfort','alone','flutter'],
+    desc:{ night:'walking slowly along a quiet tree-lined path at night, warm streetlamps glowing between the leaves, soft pools of light on the ground' } },
+];
+
+// 감정별 표정·자세
+const EXPRESSIONS = {
+  heartbreak: [
+    'eyes lowered, quietly holding back tears',
+    'glossy tearful eyes gazing into the distance',
+    'a still, melancholic expression, lips slightly parted',
+    'looking away with a fragile, wounded gaze',
+  ],
+  regret: [
+    'looking back over her shoulder with a wistful gaze',
+    'a bittersweet faint smile that does not reach her eyes',
+    'staring at nothing, lost in an old memory',
+    'a regretful half-smile, eyes glistening',
+  ],
+  flutter: [
+    'a soft shy smile, cheeks slightly flushed',
+    'a bright gentle smile, laughing quietly to herself',
+    'eyes half closed, peacefully soaking in the light',
+    'glancing at the camera with a warm, curious look',
+  ],
+  comfort: [
+    'a calm, warm smile',
+    'a relaxed, gentle expression, at ease',
+    'smiling softly as if listening to a quiet song',
+    'a serene face, breathing slowly',
+  ],
+  alone: [
+    'lost in thought, gaze unfocused',
+    'a faint private smile to herself',
+    'quietly watching the lights, expression unreadable',
+    'tired but calm eyes, a long exhale',
+  ],
+  letgo: [
+    'a calm, empty gaze fixed on the horizon',
+    'a composed, quiet expression, almost peaceful',
+    'eyes closed, face lifted slightly to the wind',
+    'a resigned soft look, the ghost of a smile',
+  ],
+};
+
+const CLOTHES = [
+  'an oversized white linen shirt',
+  'an ivory knit sweater',
+  'a plain white t-shirt',
+  'a soft beige cardigan over a white top',
+  'a sheer white blouse',
+  'a loose cream-colored shirt',
+];
+
+const HAIR = [
+  'dark shoulder-length hair loosely tousled by the wind',
+  'a messy dark bob with soft bangs',
+  'long dark hair falling naturally over her shoulders',
+  'dark wavy hair, a few strands drifting across her face',
+];
+
+const AGE = ['mid 20s', 'late 20s', 'early 30s'];
+
+const FILM = {
+  night:'shot on Cinestill 800T film',
+  dawn:'shot on Kodak Portra 400 film',
+  day:'shot on Kodak Portra 400 film',
+  dusk:'shot on Kodak Portra 400 film',
+};
+
+const TIME_KR = { dawn:'새벽', day:'낮', dusk:'노을', night:'밤' };
+
+// ───────── 상태 ─────────
+const state = { emo:'heartbreak', scene:'auto', time:'auto', ratio:'16:9', space:'right' };
+
+function renderChips(elId, items, key) {
+  const el = document.getElementById(elId);
+  el.innerHTML = '';
+  items.forEach(it => {
+    const c = document.createElement('div');
+    c.className = 'chip' + (state[key] === it.id ? ' on' : '');
+    c.textContent = it.name;
+    c.onclick = () => { state[key] = it.id; renderAll(); };
+    el.appendChild(c);
+  });
+}
+
+function renderAll() {
+  renderChips('emo', EMOTIONS, 'emo');
+  renderChips('scene', [{id:'auto',name:'자동 (감정에 맞게)'}].concat(SCENES.map(s=>({id:s.id,name:s.name}))), 'scene');
+  renderChips('time', TIMES, 'time');
+  renderChips('ratio', RATIOS, 'ratio');
+  renderChips('space', SPACES, 'space');
+}
+
+// ───────── 생성 ─────────
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function buildPrompt(scene, time) {
+  const expr = pick(EXPRESSIONS[state.emo]);
+  const cloth = pick(CLOTHES);
+  const hair = pick(HAIR);
+  const age = pick(AGE);
+  const isVertical = state.ratio === '9:16';
+
+  let head = isVertical
+    ? 'Candid vertical film photography still, a beautiful Korean woman in her ' + age
+    : 'Candid film photography still, a beautiful Korean woman in her ' + age;
+
+  let body = head + ', ' + expr + ', ' + scene.desc[time] + '. She wears ' + cloth + ', ' + hair + '.';
+
+  if (state.space !== 'none' && !isVertical) {
+    const side = state.space === 'right' ? 'LEFT' : 'RIGHT';
+    const empty = state.space === 'right' ? 'right' : 'left';
+    body += ' She is positioned on the ' + side + ' third of the frame; the ' + empty + ' two-thirds is soft empty negative space.';
+  }
+
+  body += ' ' + FILM[time].charAt(0).toUpperCase() + FILM[time].slice(1)
+       + ', 85mm lens, shallow depth of field, natural skin texture, subtle film grain, muted cinematic color grade, photorealistic, looks like a real person caught in a quiet moment.';
+
+  body += ' --ar ' + state.ratio + ' --style raw';
+  return body;
+}
+
+function generate() {
+  // 장면 후보 결정
+  let candidates;
+  if (state.scene === 'auto') {
+    candidates = SCENES.filter(s => s.emos.includes(state.emo));
+    if (!candidates.length) candidates = SCENES;
+  } else {
+    candidates = [SCENES.find(s => s.id === state.scene)];
+  }
+
+  // 6개 조합 만들기 (장면·시간 다양하게)
+  const combos = [];
+  let pool = shuffle(candidates);
+  while (combos.length < 6) {
+    if (!pool.length) pool = shuffle(candidates);
+    const sc = pool.pop();
+    let times = sc.times;
+    if (state.time !== 'auto') {
+      times = sc.times.includes(state.time) ? [state.time] : sc.times; // 안 맞으면 장면 기본 시간
+    }
+    combos.push({ scene: sc, time: pick(times) });
+  }
+
+  const out = document.getElementById('out');
+  out.innerHTML = '';
+  combos.forEach((c, i) => {
+    const prompt = buildPrompt(c.scene, c.time);
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML =
+      '<div class="card-top">' +
+        '<div class="card-title">' + (i+1) + '. ' + c.scene.name +
+          '<span class="tag">' + TIME_KR[c.time] + ' · ' + EMOTIONS.find(e=>e.id===state.emo).name + '</span></div>' +
+        '<div class="btns">' +
+          '<button class="mini" data-act="re">🔄 다시</button>' +
+          '<button class="mini" data-act="copy">📋 복사</button>' +
+        '</div></div>' +
+      '<div class="prompt"></div>';
+    card.querySelector('.prompt').textContent = prompt;
+
+    card.querySelector('[data-act="copy"]').onclick = function() {
+      navigator.clipboard.writeText(card.querySelector('.prompt').textContent).then(() => {
+        this.textContent = '✓ 복사됨'; this.classList.add('copied');
+        setTimeout(() => { this.textContent = '📋 복사'; this.classList.remove('copied'); }, 1500);
+      });
+    };
+    card.querySelector('[data-act="re"]').onclick = function() {
+      card.querySelector('.prompt').textContent = buildPrompt(c.scene, c.time);
+    };
+    out.appendChild(card);
+  });
+  out.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+renderAll();
+</script>
+</body>
+</html>

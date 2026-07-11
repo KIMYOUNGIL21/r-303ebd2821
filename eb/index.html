@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전자책 판매 쓰레드 시장 — 벤치마크 보드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+    background:#0f1115; color:#e8eaed; line-height:1.65;
+    padding:40px 20px 80px;
+  }
+  .wrap { max-width:1080px; margin:0 auto; }
+  h1 { font-size:26px; font-weight:800; margin-bottom:6px; }
+  .sub { color:#9aa0a6; font-size:14px; margin-bottom:36px; }
+  h2 { font-size:19px; font-weight:800; margin:48px 0 16px; padding-left:12px; border-left:4px solid #f4b400; }
+  .note { font-size:13px; color:#9aa0a6; margin:-8px 0 16px; }
+
+  /* 결론 배너 */
+  .verdict { background:linear-gradient(135deg,#1d2333,#161a24); border:1px solid #2c3350; border-radius:14px; padding:22px 24px; margin-bottom:8px; }
+  .verdict b { color:#ffd666; }
+  .verdict p { margin:6px 0; font-size:15px; }
+
+  /* 계정 카드 */
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:14px; }
+  .card { background:#171a21; border:1px solid #262b36; border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; gap:8px; }
+  .card.direct { border-color:#f4b400; }
+  .card .tag { font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; display:inline-block; width:fit-content; }
+  .tag.t-direct { background:#3d2f00; color:#ffd666; }
+  .tag.t-funnel { background:#0d2b3d; color:#7cd3ff; }
+  .tag.t-tone { background:#1e2b1e; color:#9be29b; }
+  .card h3 { font-size:16px; font-weight:800; }
+  .card h3 a { color:#8ab4f8; text-decoration:none; }
+  .card h3 a:hover { text-decoration:underline; }
+  .followers { font-size:22px; font-weight:800; color:#fff; }
+  .followers small { font-size:12px; font-weight:400; color:#9aa0a6; margin-left:4px; }
+  .row { font-size:13.5px; color:#c7cbd1; }
+  .row b { color:#e8eaed; }
+  .steal { background:#101317; border-radius:8px; padding:8px 12px; font-size:13px; color:#ffd666; margin-top:4px; }
+  .steal::before { content:"👉 훔칠 것: "; font-weight:700; }
+
+  /* 패턴 */
+  .pattern { background:#171a21; border:1px solid #262b36; border-radius:12px; padding:16px 20px; margin-bottom:10px; }
+  .pattern h3 { font-size:15px; font-weight:800; margin-bottom:4px; color:#ffd666; }
+  .pattern p { font-size:14px; color:#c7cbd1; }
+  .pattern .ex { font-size:13px; color:#8a93a3; margin-top:6px; font-style:normal; background:#101317; border-radius:8px; padding:8px 12px; }
+
+  /* 방향조정 테이블 */
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { padding:12px 14px; text-align:left; vertical-align:top; border-bottom:1px solid #262b36; }
+  th { color:#9aa0a6; font-size:12.5px; font-weight:700; }
+  td.before { color:#8a93a3; }
+  td.after { color:#e8eaed; font-weight:600; }
+  td.after b { color:#ffd666; }
+  .overflow { overflow-x:auto; background:#171a21; border:1px solid #262b36; border-radius:12px; }
+
+  .foot { margin-top:48px; font-size:12px; color:#5f6672; }
+  @media (max-width:600px){ .grid{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>📊 전자책 판매 쓰레드 시장 — 벤치마크 보드</h1>
+  <div class="sub">조사일 2026-07-11 · 팔로워 수는 조회 시점 기준 · 계정명 클릭하면 쓰레드로 이동</div>
+
+  <div class="verdict">
+    <p><b>결론 ①</b> 이 시장의 성장 엔진은 글이 아니라 <b>"무료 전자책 배포 이벤트"</b>다. 상위 계정 전부 「팔로우+리포스트+댓글 키워드 → DM 전달」 공식으로 팔로워를 점프시켰다.</p>
+    <p><b>결론 ②</b> AI 음악 유튜브 니치는 <b>이미 검증됐고, 아직 절대강자가 없다.</b> 제일 큰 직접 경쟁자가 4,500명 수준. 지금 들어가면 니치 1등이 가능한 타이밍.</p>
+    <p><b>결론 ③</b> 신뢰의 화폐는 문장력이 아니라 <b>프로필의 숫자 증거</b>다 (발매 곡 수·수익·펀딩 실적). 우리는 "실제 운영 중인 채널"이라는 아무도 없는 증거를 갖고 있다.</p>
+  </div>
+
+  <h2>벤치마크 계정 8곳</h2>
+  <div class="note">🟡 직접 경쟁(같은 주제) · 🔵 퍼널 모델(파는 방식을 배울 곳) · 🟢 톤 모델(글쓰기를 배울 곳)</div>
+  <div class="grid">
+
+    <div class="card direct">
+      <span class="tag t-direct">🟡 직접 경쟁 1위</span>
+      <h3><a href="https://www.threads.com/@jini_bini2024" target="_blank">@jini_bini2024 지니비니</a></h3>
+      <div class="followers">4,572<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> "AI 음원 수익화의 모든 것" — 왕초보 타겟</div>
+      <div class="row"><b>파는 것:</b> AI 음악 강의·교육 (네이버 링크로 유도)</div>
+      <div class="row"><b>무기:</b> 바이오 증거("3만곡 제작·200곡 발매") + 스레드 최초 AI음악 챌린지 운영 + "어차피 알려줘도 90명은 안 한다" 식 도발 후킹</div>
+      <div class="steal">챌린지로 참여자를 묶는 것, 바이오에 숫자 증거 박기</div>
+    </div>
+
+    <div class="card direct">
+      <span class="tag t-direct">🟡 직접 경쟁 2위</span>
+      <h3><a href="https://www.threads.com/@ai.ondo" target="_blank">@ai.ondo 온도</a></h3>
+      <div class="followers">1,832<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> "AI로 유튜브 음악 채널 만들기 꿀팁"</div>
+      <div class="row"><b>파는 것:</b> 전자책 (아직 제작 중 — 과정을 공개하며 팜)</div>
+      <div class="row"><b>무기:</b> 전자책 만드는 과정 자체를 콘텐츠로(투표·중간공개) = 빌드 인 퍼블릭. Suno 업데이트 소식 빠른 전달</div>
+      <div class="steal">책·채널 만드는 과정 공개가 그 자체로 소재가 된다</div>
+    </div>
+
+    <div class="card">
+      <span class="tag t-funnel">🔵 퍼널 모델 (핵심)</span>
+      <h3><a href="https://www.threads.com/@sienna__ai" target="_blank">@sienna__ai 시애나</a></h3>
+      <div class="followers">65,000<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> AI 크리에이터 · 하루 1시간 콘텐츠 수익화</div>
+      <div class="row"><b>파는 것:</b> 전자책·강의 (크몽 실적을 무기로)</div>
+      <div class="row"><b>무기:</b> 무료 전자책 배포 이벤트의 교과서 — "9.9만원 책 그냥 푼다" + "7일 뒤 유료화" 긴급성 + 「좋아요·팔로우·리포스트 + 댓글 '신청' → DM」 + litt.ly 링크 허브</div>
+      <div class="steal">배포 이벤트 공식 전체 (우리 무료판을 이 공식으로 뿌린다)</div>
+    </div>
+
+    <div class="card">
+      <span class="tag t-funnel">🔵 퍼널 모델</span>
+      <h3><a href="https://www.threads.com/@yegle_yegle" target="_blank">@yegle_yegle 예글</a></h3>
+      <div class="followers">5,647<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> 전자책 펀딩 3회 성공 N잡맘</div>
+      <div class="row"><b>파는 것:</b> 전자책 + 출간 코칭</div>
+      <div class="row"><b>무기:</b> 바이오 증거("펀딩 최고 420%") + 육아 일상 공감글과 판매글을 섞어 사람 냄새 유지 + 무료책 받은 사람에게 후기 요청(사회적 증거 재생산)</div>
+      <div class="steal">다운받은 사람에게 후기 부탁 → 후기가 다음 판매 소재가 되는 순환</div>
+    </div>
+
+    <div class="card">
+      <span class="tag t-tone">🟢 톤 모델</span>
+      <h3><a href="https://www.threads.com/@qjc.ai" target="_blank">@qjc.ai 퀀텀점프클럽</a></h3>
+      <div class="followers">26,600<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> "자비스 만드는 아이언맨" — 기업 AI 자동화</div>
+      <div class="row"><b>파는 것:</b> 기업 AI 도입 서비스 (B2B)</div>
+      <div class="row"><b>무기:</b> 판매 티를 안 냄. "혼자서 100명 팀 운영" 같은 사례+ROI 숫자("25배")만 던져서 신뢰가 쌓이면 알아서 찾아오게 함</div>
+      <div class="steal">자동화 파이프라인 자랑글은 이 톤으로 (팔지 말고 보여주기)</div>
+    </div>
+
+    <div class="card">
+      <span class="tag t-tone">🟢 톤 모델</span>
+      <h3><a href="https://www.threads.com/@chat_danielle" target="_blank">@chat_danielle 다니엘</a></h3>
+      <div class="followers">1,728<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> AI 조련사 — 생산성·자동화 꿀팁</div>
+      <div class="row"><b>파는 것:</b> 프롬프트·가이드 (무료 중심)</div>
+      <div class="row"><b>무기:</b> "✅ 와, 이게 되네?" 놀라움 후킹 + 번호 리스트("4단계", "10개") + "저장하고 꼭 실천해봐" 행동 지시 마무리</div>
+      <div class="steal">리스트형 글 구조와 "저장 유도" 마무리 (저장은 쓰레드 알고리즘 신호)</div>
+    </div>
+
+    <div class="card">
+      <span class="tag t-tone">🟢 톤 모델</span>
+      <h3><a href="https://www.threads.com/@sireal_co" target="_blank">@sireal_co 시리얼</a></h3>
+      <div class="followers">3,237<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> 노션 공식 컨설턴트 · 업무 자동화</div>
+      <div class="row"><b>파는 것:</b> 컨설팅·서적 (하드 CTA 없음)</div>
+      <div class="row"><b>무기:</b> 전문성 있는 정보글만 꾸준히 — 자격·직함이 신뢰의 근거. Suno 저작권/플랜 해설글이 검색에 걸림</div>
+      <div class="steal">저작권·정책 해설글은 검색 유입이 된다 (우리 강점 분야)</div>
+    </div>
+
+    <div class="card">
+      <span class="tag t-tone">🟢 참고 (소형)</span>
+      <h3><a href="https://www.threads.com/@move__class" target="_blank">@move__class 한승재</a></h3>
+      <div class="followers">701<small>팔로워</small></div>
+      <div class="row"><b>포지션:</b> "대행사들이 싫어하는 마케팅 꿀팁"</div>
+      <div class="row"><b>파는 것:</b> 마케팅 인사이트 (초기 단계)</div>
+      <div class="row"><b>무기:</b> 역설·적대 프레임 후킹("~가 싫어하는") — 팔로워는 적지만 후킹 문장은 참고 가치</div>
+      <div class="steal">"유튜브 강사들이 말 안 해주는 ○○" 식 역설 프레임</div>
+    </div>
+
+  </div>
+
+  <h2>상위 계정 공통 승리 공식 6가지</h2>
+
+  <div class="pattern">
+    <h3>1. 팔로워 엔진 = 무료 전자책 배포 이벤트</h3>
+    <p>글 잘 써서 크는 게 아니라, 배포 이벤트로 점프한다. 공식: <b>「좋아요 + 팔로우 + 리포스트 + 댓글에 키워드 → DM으로 전달」</b>. 리포스트 조건이 핵심 — 받은 사람의 팔로워에게 글이 퍼진다.</p>
+    <div class="ex">시애나: "내가 쓴 9.9만원 전자책 그냥 푼다. 크몽에서 수천만원 팔린 자료인데… 팔로우+댓글 '신청'" / "7일 뒤에 유료화 예정이야 서둘러"</div>
+  </div>
+  <div class="pattern">
+    <h3>2. 프로필 바이오 = 숫자 증거 한 줄</h3>
+    <p>바이오에 실적 숫자가 없으면 아무도 안 믿는다. 크기보다 <b>구체성</b>이 중요하다.</p>
+    <div class="ex">"AI음악 3만곡 제작, 200곡 발매 중" (지니비니) / "전자책 펀딩 3회 성공, 최고 420%" (예글)</div>
+  </div>
+  <div class="pattern">
+    <h3>3. 글 구조 = 도발 첫 줄 + 번호 리스트 + 행동 지시</h3>
+    <p>첫 줄은 확신체·도발로 스크롤을 멈추고, 본문은 번호 리스트로 읽기 쉽게, 마지막은 반드시 행동 지시("저장해", "오늘 하나 만들어봐")로 닫는다. 존댓말 설명체는 상위 계정에 없다.</p>
+    <div class="ex">"어차피 알려줘도 100명 중 90은 안 하더라" (지니비니) / "아직도 스레드로 돈 못 번다고?" (시애나)</div>
+  </div>
+  <div class="pattern">
+    <h3>4. 과정 공개(빌드 인 퍼블릭)가 판매 페이지보다 잘 판다</h3>
+    <p>책 만드는 과정, 채널 성장 숫자, 실패 경험을 실시간으로 공개하면 구경꾼이 예비 구매자가 된다.</p>
+    <div class="ex">온도: 전자책 목차를 투표로 정함 / 예글: 펀딩 진행 상황 중계 / 퀀텀점프: 운영 사례와 ROI만 공개</div>
+  </div>
+  <div class="pattern">
+    <h3>5. 프로필 링크 = 링크 허브 (단일 링크 ❌)</h3>
+    <p>상위 계정은 litt.ly(리틀리) 같은 허브에 무료책·유료책·오픈채팅·채널을 한 페이지로 모은다. 방문자가 어떤 단계든 다음 행동이 있게.</p>
+    <div class="ex">시애나 → litt.ly/sienna__ai / 예글 → litt.ly/yegle</div>
+  </div>
+  <div class="pattern">
+    <h3>6. 커뮤니티 장치 (챌린지·오픈카톡)</h3>
+    <p>팔로워가 어느 정도 모이면 챌린지나 단톡방으로 묶는다. 참여자의 인증글이 무료 광고가 되는 구조.</p>
+    <div class="ex">지니비니: "스레드 최초 AI음악 챌린지" — 미션 주고 댓글로 인증받음</div>
+  </div>
+
+  <h2>우리 방향 조정 — 이렇게 좁힌다</h2>
+  <div class="overflow">
+  <table>
+    <tr><th style="width:110px">항목</th><th>기존 계획 (감)</th><th>조정 (시장 근거)</th></tr>
+    <tr>
+      <td><b>포지션</b></td>
+      <td class="before">"AI 음악 유튜브 알려주는 사람"</td>
+      <td class="after"><b>"실제 채널을 운영하며 기록하는 사람"</b> — 경쟁자 중 진짜 채널을 걸고 보여주는 사람이 없다. 그밤라디오가 유일한 차별화 증거</td>
+    </tr>
+    <tr>
+      <td><b>성장 엔진</b></td>
+      <td class="before">좋은 글 쌓아서 프로필 링크로 유도</td>
+      <td class="after">평소글로 신뢰 쌓고 <b>2~3주마다 무료판 배포 이벤트</b>(팔로우+리포스트+댓글 키워드→전달)로 점프. 배포글은 프로필 고정</td>
+    </tr>
+    <tr>
+      <td><b>말투</b></td>
+      <td class="before">정중한 경험담 (해요체)</td>
+      <td class="after"><b>첫 줄은 확신체 선언·도발, 본문은 경험담</b>. 마지막 줄은 질문 대신 행동 지시("저장해두고 오늘 한 곡 만들어봐")</td>
+    </tr>
+    <tr>
+      <td><b>바이오</b></td>
+      <td class="before">(미정)</td>
+      <td class="after">숫자 증거 필수: <b>"AI 발라드 채널 실제 운영 중 · 발매 ○곡 · mp3 넣으면 발행까지 자동"</b> 식으로. 크기보다 구체성</td>
+    </tr>
+    <tr>
+      <td><b>프로필 링크</b></td>
+      <td class="before">그로블 단일 링크</td>
+      <td class="after"><b>리틀리 허브</b>: 무료판 / 유료판(그로블) / 오카방 / 그밤라디오 채널 4개 모음</td>
+    </tr>
+    <tr>
+      <td><b>기둥 비율</b></td>
+      <td class="before">지식50 / 기록25 / 공감15 / CTA10</td>
+      <td class="after">지식45 / <b>기록(빌드인퍼블릭)30</b> / 공감15 / 이벤트10 — 과정 공개가 이 시장에서 제일 잘 먹혀서 상향</td>
+    </tr>
+    <tr>
+      <td><b>나중 단계</b></td>
+      <td class="before">(없음)</td>
+      <td class="after">팔로워 1,000명 도달 시 <b>"AI 음악 채널 챌린지"</b> 개시 (지니비니 공식) — 참여자 인증글이 광고가 됨</td>
+    </tr>
+  </table>
+  </div>
+
+  <div class="foot">
+    출처: threads.com 공개 프로필 (2026-07-11 조회) · 검색: 네이버 블로그 "쓰레드 전자책 수익화" 6,000여 건 · 팔로워 수는 변동될 수 있음<br>
+    이 보드는 D:\work\ebook-feed\벤치마크.html · 콘텐츠 전략 원본은 콘텐츠방향.md
+  </div>
+
+</div>
+</body>
+</html>

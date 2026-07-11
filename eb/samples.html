@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ebook-feed 샘플 글 v2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+    background:#0f1115; color:#e8eaed; line-height:1.7;
+    padding:28px 16px 70px;
+  }
+  .wrap { max-width:560px; margin:0 auto; }
+  h1 { font-size:21px; font-weight:800; margin-bottom:4px; }
+  .sub { color:#9aa0a6; font-size:13px; margin-bottom:24px; }
+  .rule { background:#1d2333; border:1px solid #2c3350; border-radius:12px; padding:14px 16px; font-size:13.5px; margin-bottom:26px; }
+  .rule b { color:#ffd666; }
+
+  .label { font-size:12px; font-weight:800; letter-spacing:.4px; margin:26px 0 8px; }
+  .label.hot { color:#ff9d66; }
+  .label.b { color:#7cd3ff; }
+  .label.a { color:#9be29b; }
+  .label.insta { color:#f7a8d8; }
+
+  .post {
+    background:#171a21; border:1px solid #262b36; border-radius:16px;
+    padding:18px 18px 16px; font-size:15px; white-space:pre-line;
+  }
+  .post .head { display:flex; align-items:center; gap:10px; margin-bottom:12px; white-space:normal; }
+  .post .avatar { width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#4a5aa8,#8a5aa8); display:flex; align-items:center; justify-content:center; font-size:17px; }
+  .post .name { font-weight:800; font-size:14px; }
+  .post .name small { display:block; font-weight:400; font-size:11.5px; color:#9aa0a6; }
+
+  .cards { display:flex; flex-direction:column; gap:10px; }
+  .cardslide { background:#171a21; border:1px solid #262b36; border-radius:14px; padding:16px 18px; }
+  .cardslide .no { font-size:11px; font-weight:700; color:#9aa0a6; margin-bottom:6px; }
+  .cardslide .txt { font-size:15.5px; font-weight:700; white-space:pre-line; }
+  .cardslide.cover { background:linear-gradient(135deg,#232946,#161a24); border-color:#3a4266; }
+  .cardslide.cover .txt { font-size:19px; font-weight:900; }
+  .cardslide.cta { border-color:#f4b400; }
+  .cardslide.cta .txt { color:#ffd666; }
+  .caption { font-size:13px; color:#9aa0a6; margin-top:8px; }
+
+  .diff { margin-top:34px; background:#171a21; border:1px solid #262b36; border-radius:12px; overflow:hidden; }
+  .diff table { width:100%; border-collapse:collapse; font-size:13px; }
+  .diff th, .diff td { padding:10px 12px; border-bottom:1px solid #262b36; text-align:left; vertical-align:top; }
+  .diff th { color:#9aa0a6; font-size:11.5px; }
+  .diff td.old { color:#8a93a3; }
+  .diff td.new { color:#ffd666; font-weight:600; }
+  .foot { margin-top:36px; font-size:11.5px; color:#5f6672; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>✍️ 샘플 글 v2 — 시장 톤 반영</h1>
+  <div class="sub">2026-07-11 · 벤치마킹 8계정 분석 후 재작성 · 계정명·숫자는 발행 시 확정</div>
+
+  <div class="rule">
+    상위 계정 공통 공식 적용:<br>
+    <b>① 첫 줄 = 확신체·도발</b> (스크롤 멈추기)<br>
+    <b>② 본문 = 짧은 줄 + 번호 리스트</b><br>
+    <b>③ 마지막 = 행동 지시</b> ("저장해", "만들어봐") — 질문 ❌
+  </div>
+
+  <div class="label hot">🔥 샘플 1 · 무료판 배포 이벤트 (성장 엔진 · 프로필 고정용)</div>
+  <div class="post"><div class="head"><div class="avatar">🎵</div><div class="name">채널 운영자<small>Threads</small></div></div>AI로 노래 만들어서 유튜브 채널 굴리는 법, 전자책으로 정리해서 그냥 푼다.
+
+나는 이 방법으로 지금 실제 채널을 운영 중이다.
+이론이 아니라 내가 매일 쓰는 순서 그대로 담았다.
+
+1. 시작 전에 무너지는 3가지 이유 (저작권 지뢰 포함)
+2. 월 유지비 전부 공개 — 커피 몇 잔 값이다
+3. 오늘 밤 30분, 첫 곡 만드는 코스
+
+받는 법
+① 좋아요 + 팔로우 + 리포스트
+② 댓글에 "지도"
+
+확인하고 바로 보내준다.
+폴더에 쌓아두고 안 읽을 사람은 그냥 지나가라.</div>
+
+  <div class="label b">🔵 샘플 2 · 운영 기록(실패담) — 커버 폐기 사건</div>
+  <div class="post"><div class="head"><div class="avatar">🎵</div><div class="name">채널 운영자<small>Threads</small></div></div>채널 하나를 통째로 갈아엎었다.
+
+AI 커버곡으로 시작했었다. 조회수도 나왔다.
+근데 어느 날 깨달았다. 이 채널에 내 곡이 한 곡도 없다는 걸.
+
+저작권 신고 한 방이면 전부 사라지는 구조 위에 서 있었던 거다.
+
+그날 커버 노선을 전부 폐기하고 자작곡으로 갈아탔다.
+지금 내 채널의 곡은 전부 내 소유다. 누가 신고해도 안 무너진다.
+
+AI 음악 시작할 거면 이 지뢰부터 피해라.
+내일 저작권 지뢰 3개를 정리해서 올린다. 팔로우 해두면 안 놓친다.</div>
+
+  <div class="label a">🟢 샘플 3 · 실전 지식 — 월 유지비 공개</div>
+  <div class="post"><div class="head"><div class="avatar">🎵</div><div class="name">채널 운영자<small>Threads</small></div></div>AI 음악 채널 한 달 유지비, 공개한다.
+
+시작 전엔 나도 수십만 원 들 줄 알았다.
+편집 프로그램, 음원 제작, 디자인 툴. 다 돈이니까.
+
+실제로는 커피 몇 잔 값이다.
+
+1. 곡 생성 구독 하나가 거의 전부
+2. 영상 편집은 프로그램 없이 해결한다 (이 방법은 따로 푼다)
+3. 썸네일도 AI로 끝
+
+부업을 막던 게 '초기 비용'이었다면, 이 판은 그 장벽이 없다.
+
+저장해두고, 오늘 밤 곡 하나부터 만들어봐.</div>
+
+  <div class="label insta">💗 샘플 4 · 인스타 카드뉴스 — 6장 세트</div>
+  <div class="cards">
+    <div class="cardslide cover"><div class="no">1 · 표지</div><div class="txt">AI 음악 채널,
+시작 전에 무너지는
+3가지 이유</div></div>
+    <div class="cardslide"><div class="no">2</div><div class="txt">① 타깃 없이 시작한다
+"좋은 노래 만들면 알아서 듣겠지"
+유튜브에서 제일 흔한 착각이다.
+누구에게 들려줄지가 곡보다 먼저다.</div></div>
+    <div class="cardslide"><div class="no">3</div><div class="txt">② 도구 수집가가 된다
+강의 듣고, 툴 결제하고, 세팅만 한 달.
+정작 곡은 0개.
+도구는 3개면 충분하다.</div></div>
+    <div class="cardslide"><div class="no">4</div><div class="txt">③ 저작권 지뢰를 밟는다
+커버곡은 내 채널인데 내 것이 아니다.
+신고 한 방이면 전부 사라진다.
+처음부터 '내 곡'으로 시작해라.</div></div>
+    <div class="cardslide"><div class="no">5</div><div class="txt">나는 ③번을 밟고
+채널을 통째로 갈아엎었다.
+그 뒤로 만든 원칙을
+지도 한 장에 정리했다.</div></div>
+    <div class="cardslide cta"><div class="no">6 · CTA</div><div class="txt">'AI유튜브 시작지도'
+프로필 링크에서 무료로 받아가라.</div></div>
+  </div>
+  <div class="caption">캡션: 표지 문구 + "저장해두고 시작할 때 다시 봐" + #AI부업 #유튜브부업 #AI음악 #수익화 #N잡</div>
+
+  <div class="diff">
+    <table>
+      <tr><th></th><th>v1 (폐기)</th><th>v2 (지금)</th></tr>
+      <tr><td>첫 줄</td><td class="old">"~이야기를 해보려고 합니다"</td><td class="new">"채널 하나를 통째로 갈아엎었다"</td></tr>
+      <tr><td>말투</td><td class="old">해요체 설명</td><td class="new">확신체 반말, 짧은 줄</td></tr>
+      <tr><td>마무리</td><td class="old">"댓글로 물어보세요" (질문)</td><td class="new">"오늘 밤 곡 하나부터 만들어봐" (행동 지시)</td></tr>
+      <tr><td>배포 글</td><td class="old">없었음</td><td class="new">샘플 1 신설 — 성장 엔진</td></tr>
+    </table>
+  </div>
+
+  <div class="foot">원본: D:\work\ebook-feed\샘플글.md · 벤치마크 보드는 <a href="./index.html" style="color:#8ab4f8">여기</a></div>
+
+</div>
+</body>
+</html>

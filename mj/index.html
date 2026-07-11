@@ -213,7 +213,7 @@ const HAIR = [
   'dark wavy hair, a few strands drifting across her face',
 ];
 
-const AGE = ['mid 20s', 'late 20s', 'early 30s'];
+const AGE = ['early 30s', 'early 30s', 'mid 30s'];
 
 const FILM = {
   night:'shot on Cinestill 800T film',
@@ -259,8 +259,8 @@ function buildPrompt(scene, time) {
   const isVertical = state.ratio === '9:16';
 
   let head = isVertical
-    ? 'Candid vertical film photography still, medium shot framed from the chest up, a beautiful Korean woman in her ' + age
-    : 'Candid film photography still, medium shot framed from the chest up, a beautiful Korean woman in her ' + age;
+    ? 'Candid vertical film photography still, medium shot framed from the chest up, an elegant Korean woman in her ' + age + ' with a mature, graceful beauty'
+    : 'Candid film photography still, medium shot framed from the chest up, an elegant Korean woman in her ' + age + ' with a mature, graceful beauty';
 
   let body = head + ', ' + expr + ', ' + scene.desc[time] + '. She wears ' + cloth + ', ' + hair + '.';
 

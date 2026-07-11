@@ -259,8 +259,8 @@ function buildPrompt(scene, time) {
   const isVertical = state.ratio === '9:16';
 
   let head = isVertical
-    ? 'Candid vertical film photography still, medium shot framed from the chest up, an elegant Korean woman in her ' + age + ' with a mature, graceful beauty'
-    : 'Candid film photography still, medium shot framed from the chest up, an elegant Korean woman in her ' + age + ' with a mature, graceful beauty';
+    ? 'Candid vertical film photography still, medium-wide shot framed from the waist up, the subject standing at a distance from the camera, an elegant Korean woman in her ' + age + ' with a mature, graceful beauty'
+    : 'Candid film photography still, medium-wide shot framed from the waist up, the subject standing at a distance from the camera, an elegant Korean woman in her ' + age + ' with a mature, graceful beauty';
 
   let body = head + ', ' + expr + ', ' + scene.desc[time] + '. She wears ' + cloth + ', ' + hair + '.';
 
@@ -271,7 +271,7 @@ function buildPrompt(scene, time) {
   }
 
   body += ' ' + FILM[time].charAt(0).toUpperCase() + FILM[time].slice(1)
-       + ', 50mm lens, camera at a slight distance from the subject, shallow depth of field, natural skin texture, subtle film grain, muted cinematic color grade, photorealistic, looks like a real person caught in a quiet moment.';
+       + ', 35mm lens, environmental portrait with generous space around the subject, shallow depth of field, natural skin texture, subtle film grain, muted cinematic color grade, photorealistic, looks like a real person caught in a quiet moment.';
 
   body += ' --ar ' + state.ratio + ' --style raw';
   return body;

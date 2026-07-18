@@ -75,6 +75,30 @@
   .foot { margin-top:40px; font-size:11.5px; color:#5f6672; border-top:1px solid #262b36; padding-top:16px; }
   .foot a { color:#8ab4f8; }
   .warn { background:#2a1e10; border:1px solid #4a3418; border-radius:10px; padding:12px 15px; font-size:12.5px; color:#f0c078; margin:14px 0; }
+
+  /* 실측 답 배너 */
+  .answer { background:#101c14; border:1px solid #1f4030; border-radius:12px; padding:16px 18px; margin-bottom:16px; }
+  .answer .q { font-size:12.5px; color:#7fe0a5; font-weight:700; margin-bottom:6px; }
+  .answer .a { font-size:15px; color:#eafff2; font-weight:700; line-height:1.55; }
+  .answer .a b { color:#9be8bb; }
+
+  /* 스택 막대 차트 */
+  .chartwrap { background:#171a21; border:1px solid #262b36; border-radius:14px; padding:18px 20px; }
+  .legend { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:14px; font-size:12px; color:#c7cbd1; }
+  .legend span { display:inline-flex; align-items:center; gap:5px; }
+  .legend i { width:11px; height:11px; border-radius:3px; display:inline-block; }
+  .brow { display:grid; grid-template-columns:126px 1fr 74px; align-items:center; gap:10px; margin-bottom:9px; }
+  .blab { font-size:11.5px; color:#c7cbd1; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .blab small { color:#8a93a3; font-size:10px; }
+  .sbar { display:flex; height:22px; border-radius:5px; overflow:hidden; gap:2px; background:#0f1115; }
+  .sseg { height:100%; min-width:0; }
+  .bpct { font-size:12.5px; font-weight:800; color:#fff; font-variant-numeric:tabular-nums; }
+  .bpct small { font-size:10px; color:#8a93a3; font-weight:500; }
+  .refline { border-top:1px dashed #4a5568; margin:12px 0 4px; position:relative; }
+  .chartnote { font-size:11.5px; color:#8a93a3; margin-top:12px; line-height:1.6; }
+  .chartnote b { color:#c7cbd1; }
+  .pb .for { background:#101c14; border-radius:8px; padding:8px 12px; font-size:12.5px; color:#9be8bb; margin-top:6px; }
+  .pb .for::before { content:"우리 적용 · "; color:#7fe0a5; font-weight:700; }
 </style>
 </head>
 <body>
@@ -91,6 +115,19 @@
   </div>
 
   <div class="warn" id="ratioBox">계산 중…</div>
+
+  <h2>🔬 실측: 남들은 예열과 모객을 어떤 비율로 섞나</h2>
+  <div class="h2note">우수사례 중 9곳을 골라 <b>최근 글을 하나하나 예열·모객·판매·일상으로 분류</b>(총 53글) → 별도 검증 에이전트가 반증 검토. 사장님 질문의 실측 답.</div>
+  <div id="ratioAnswer"></div>
+  <div class="chartwrap">
+    <div class="legend" id="legend"></div>
+    <div id="bars"></div>
+    <div class="chartnote" id="chartnote"></div>
+  </div>
+
+  <h2>⚙️ 승자들의 운영법 (전수 데이터로 확인)</h2>
+  <div class="h2note">가설이었던 "고정글 재사용·노하우 통째 공개"를 이번 전수 분류로 검증한 결과.</div>
+  <div id="playbook"></div>
 
   <h2>📊 이 시장은 어떻게 도는가</h2>
   <div class="h2note">30개 계정에서 반복 관찰된 패턴만. 1곳에서만 본 건 뺐다.</div>
@@ -113,6 +150,7 @@
 
 <script>
 const DATA = [{"handle": "@human__bro", "url": "https://www.threads.com/@human__bro", "fol": 71000, "sells": "확실", "prod": "유료 'AI로 하루 2시간 첫사업 만들기' 89,000원 (litt.ly에 '102건 판매' 공개 표기) + 무료 '프롬프트 100선'·'Threads 3만 비법' 전자책", "funnel": "매 글 프롬프트 8종을 본문에 직접 풀고 '저장 안하면 손해' 저장 유도 → 프로필 litt.ly/human_bro 상품 페이지", "top": "1천L/375R/169RP/37S", "ev": "판매 건수(102건)가 랜딩에 공개돼 실제 전환의 물증. 코덱스/프롬프트 8종을 아낌없이 본문에 풀어 저장수(178·230)를 극대화하는 게 핵심 엔진. 무료 리드마그넷 2종→89,000원 본상품 구조가 우리 무료판"}, {"handle": "@kennenblog", "url": "https://www.threads.com/@kennenblog", "fol": 36000, "sells": "확실", "prod": "크몽 전자책 (블로그/수익화 계열, 구체 상품명 미표기) — 크몽 탑 셀러·판매 최고등급", "funnel": "바이오 litt.ly/kennenblog + 인스타 21만 연계. 홍보 없이 크몽 노출만으로 상시 판매(본인 표현: 홍보 1도 안 함)", "top": "'크몽 탑셀러' 글 L70 R4 RP1 S2 / 고정 '블로그 팔로우 안 하면 손해' L928 R55 RP350 S296", "ev": "검색 '전자책 판매' 최상단. 본인 글에 '크몽 전자책 탑 셀러, 판매 최고등급, 5일 전 하루만에 수백만원 매출, 자발적 후기 1000개+'라고 실적 공개. 실제로 돈이 도는 판매자 사례의 상단(팔로워보다 매출 증"}, {"handle": "@sienna__ai", "url": "https://www.threads.com/@sienna__ai", "fol": 25000, "sells": "확실", "prod": "AI 전자책(클로드 디자인/ChatGPT 이미지 등) 무료배포 → 스레드 수익화 비법(99,000원 언급) → 쓰사챌 4주 챌린지(1기 오픈 5시간 마감)", "funnel": "고정글 '좋아요+팔로우+리포스트+댓글 신청 → DM' + 오픈카톡 연구방 + 프로필 litt.ly/sienna__ai(무료 전자책 3종 사다리)", "top": "1.6천L/1.4천R/1천RP/58S", "ev": "이 시장 최상위. 바이오 '총 팔로워 6.3만·누적 수강생 12,647명·누적매출 10억+'. 고정 무료배포글에 답글 1.4천·리포스트 1천으로 퍼널 자체가 폭발. litt.ly에서 무료전자책→수익화강의→챌린지로 이"}, {"handle": "@ai_margin_", "url": "https://www.threads.com/@ai_margin_", "fol": 21000, "sells": "확실", "prod": "'AI로 돈버는 왕초보 전자책' + AI 안티그래비티 전자책. 프로필 톡방으로 상위 유입", "funnel": "프로필링크(litt.ly/nomad_margin) '전자책 받기' + 무료배포 글(좋아요+팔로우+리포스트+댓글'AI'→1명씩 DM). 평소 글 말미에 '프로필 톡방 들어와라' CTA 고정", "top": "AI 안티그래비티 전자책 무료배포 L289/R288/RP205/S14", "ev": "zerocheonclub과 동일한 '유료 전자책 2주 무료배포' 템플릿을 2.1만 규모로 실행. 조선소 고졸 서사(소신발언)로 진정성 프레임을 깔고 전자책→톡방→상위상품 퍼널. 기존 카톡방유입 실측에도 프로필링크 배"}, {"handle": "@editorviewee", "url": "https://www.threads.com/@editorviewee", "fol": 15000, "sells": "확실", "prod": "무료 전자책 먼저 배포 → 출판/북퍼널 상담(latpeed) → 종이책 출간·브랜딩 설계(고가 서비스)", "funnel": "프로필 litt.ly/editorv에서 '전자책 먼저 읽고 상담' → latpeed 출간 방향 상담 예약", "top": "995L/417R/189RP/20S", "ev": "'북퍼널 설계자'로 전자책을 미끼→고가 서비스로 전환하는 구조를 대놓고 표방(우리가 배울 퍼널 설계의 교과서격). 자기소개 고정글이 답글 417로 초강력. 9년차 출판사 사장 권위 + 일상 브이로그(남편 얘기)를 섞"}, {"handle": "@jihoon_iw", "url": "https://www.threads.com/@jihoon_iw", "fol": 13000, "sells": "확실", "prod": "종이책 '위너노트'의 전자책 버전 (팔로워 돌파 기념 나눔) · 6권 베스트셀러 저자", "funnel": "팔로워 6천 돌파 이벤트로 '판매되는 종이책의 전자책 버전 나눔' → 댓글 발송조건 → 바이오 litt.ly/cjh231 · 오픈카톡. 실물 출간작을 미끼로 글쓰기 강의·코칭으로 연결", "top": "나눔 이벤트글 L361 R384 RP207 S18 / 자기소개 고정글 L577 R213 RP121", "ev": "리바트 인테리어 대표이자 6권 베스트셀러 실물 저자. 실제 판매중인 종이책(위너노트)의 전자책판을 팔로워 기념 나눔으로 풀어 R384 답글 유도 → 글쓰기 코칭·챌린지로 수익화. '진짜 채널/실물 실적을 걸고 전자책"}, {"handle": "@kooky.ai", "url": "https://www.threads.com/@kooky.ai", "fol": 10000, "sells": "확실", "prod": "무료 '홈페이지 대행업 로드맵 전자책'(무료특강 신청 시 증정) → 월부 무료특강 → 유료(대행업 노하우/AI 노코드 자동화, 3,000만원 판매 사례 언급)", "funnel": "'무료특강 신청만 해도 전자책 줄게' → weolbu 라이브 신청 + 오픈카톡방 + 프로필 maily.so/kooky 뉴스레터", "top": "77L/13R/37RP/27S", "ev": "4만 AI 유튜브 채널 운영자로 유튜브+전자책+특강을 엮음. 전자책을 무료특강 등록 유인으로 쓰는 전형(리드마그넷). 'AI 노코드 활용법 9단계'처럼 실전 프로세스를 통째로 공개해 저장·리포스트 유도. 월급쟁이부자"}, {"handle": "@zerocheonclub", "url": "https://www.threads.com/@zerocheonclub", "fol": 10000, "sells": "확실", "prod": "쓰레드 마케팅/스마트스토어·쿠팡/부가세 셀프신고 전자책 (원래 유료→무료 배포). 프로필 소개에 '7년간 사업자 4900명 양성'", "funnel": "프로필링크(litt.ly/zerocheon) + 반복 무료배포 글: 하트+팔로우+리포스트+댓글키워드('전자책'/'부가세')→운영자가 1명씩 DM", "top": "스마트스토어·쿠팡 전자책 무료배포 L2천/R1.9천/RP647/S45, 쓰레드 전자책 무료배포 L2천/R4.7천/RP1.5천/S114", "ev": "이 조사 전체의 최강 퍼널 사례. '원래 유료로 팔 전자책인데 딱 N주만 무료로 풀게'를 정형화해 반복 발행, 매 글이 R 1천~4.7천을 찍는다. 무료배포=리스트빌딩(DM으로 유입)이고 프로필 litt.ly가 판매"}, {"handle": "@dgrigo_draw", "url": "https://www.threads.com/@dgrigo_draw", "fol": 5668, "sells": "확실", "prod": "전자책 '일러스트 스톡작가 실전가이드' (크몽 + 리틀리 판매). 2023~2025 실제 월수익 공개 포함", "funnel": "프로필링크(litt.ly/dgrigo) + 본문에 크몽·리틀리 구매링크 직접 게시. '마케팅 없이 100명 이상 구매, 후기 쌓이는 중' 사회적 증거", "top": "스톡작가 전자책 소개 고정글 L77/R15/RP8/S3, 42살 도전 서사 L66/R13", "ev": "판매처(크몽·리틀리)를 본문에 실제로 건 정공법 계정. 어그로가 아니라 '4년간 월54만→574만, 최대 980만' 같은 구체 수익 서사로 신뢰를 쌓고 전자책으로 착지. 스톡작가라는 좁은 니치에서 '100명 이상 구"}, {"handle": "@glitter_ai_factory", "url": "https://www.threads.com/@glitter_ai_factory", "fol": 5655, "sells": "확실", "prod": "유료 '코딩없이 AI 유튜브 자동화 전자책' 69,000원(50%), 'Claude Code로 잘팔리는 전자책 만들기' 69,900원 + 무료 카드뉴스메이커·가이드", "funnel": "릴스/글 댓글 키워드 → 매니챗 자동 DM(본인이 언급, 무료판 25개 제한 실측 공유) + 프로필 litt.ly/glitter_ai_factory(무료→유료 계단)", "top": "362L/16R/170RP/121S", "ev": "상품 '코딩없이 AI 유튜브 자동화 전자책'이 우리 상품과 정면으로 겹침. 디자인 레퍼런스 실전글이 리포스트 170·저장 121로 저장형 콘텐츠 강함. '만들기 전 검증(저장·댓글 반응 확인)' 방법론을 반복 노출해"}, {"handle": "@sangwon.ropefree", "url": "https://www.threads.com/@sangwon.ropefree", "fol": 5328, "sells": "확실", "prod": "'AI음원 제작/배급 무료 전자책' 신청 배포 + 클로드 AI음원 수익화 라이브 특강(7/23) → (유료 강의 추정)", "funnel": "프로필 ropefree.io/invitation → 무료 커뮤니티 입장 → 공지로 무료 전자책 신청·특강 혜택 안내 → 라이브 특강", "top": "243L/87R/35RP/35S", "ev": "우리 시장 정중앙(AI음원 수익화). 'AI음원 300개 전세계 출시·2,300만 스트리밍' 등 진짜 숫자를 내걸어 그밤라디오 차별화 포인트(실제 채널 운영)와 가장 직접 경쟁. 무료 전자책→커뮤니티→라이브 특강 자"}, {"handle": "@gwonvibe_ai", "url": "https://www.threads.com/@gwonvibe_ai", "fol": 4816, "sells": "확실", "prod": "바이브코딩 전자책 (무료판 3100+ 다운로드 → 업데이트 후 유료 전환 예정)", "funnel": "바이오 'litt.ly/gwon_vibe' + '바이브코딩 무료 전자책 3100+ 다운로드' 실측을 바이오 헤드라인에. 평소글=프롬프트 통째 무료공개(신뢰적립)로 리드 유입 → 링크허브", "top": "'무료 전자책 판매 중지 예정(1282명 3100다운)' L22 / 자동화 프롬프트 글 L5~9 R1~3 (평소글은 낮음)", "ev": "바이오에 다운로드 실측치를 박아둔 드문 사례. '무료 전자책 조만간 판매 중지→리뷰 반영해 유료로 재출시'라고 무료→유료 전환 로드맵을 공개. 평소엔 실전 프롬프트를 통째로 풀어 신뢰를 쌓고 링크허브로 흘리는, 우리"}, {"handle": "@jini_bini2024", "url": "https://www.threads.com/@jini_bini2024", "fol": 4564, "sells": "확실", "prod": "AI음악 수익화 노하우 + 'AI음악 앨범 챌린지'(왕초보 미션형). naver.me 링크로 판매/모집", "funnel": "고정 챌린지글 '미션 리뷰 댓글' 유도 + '팔로우하고 프로필 링크 타고 오늘까지만 열어둘게' 마감 압박 + 프로필 naver.me 링크", "top": "175L/344R/69RP/16S", "ev": "알려진 직접 경쟁자를 전자책 관점에서 실측. 'AI 3만곡·200곡 발매' 숫자 소구. 챌린지 고정글이 답글 344개로 반응 최상(참여형 미션이 답글 R을 극대화). AI음악 시장에서 '챌린지' 포맷으로 커뮤니티를 "}, {"handle": "@builder.rich", "url": "https://www.threads.com/@builder.rich", "fol": 4462, "sells": "확실", "prod": "JH옥션스쿨 유료 플랫폼(경매물건 큐레이션 구독)+경매 강의, 10월 종이책 출간 예정. linktr.ee/doghoneyauction", "funnel": "무료전자책(경매기초AtoZ)→구글폼(forms.gle) 작성→자정 일괄 이메일 발송. 2차배포·마감일 반복", "top": "L57 / R18 / RP14 / S3 (경매 무료전자책 구글폼 배포글)", "ev": "'현직 경매강사인데 경매강의 듣지마세요(소신발언)'로 무료전자책 배포 후, 같은 서사로 유료 플랫폼(JH옥션스쿨) 1주 무료체험→낙찰 성공사례로 전환. 무료전자책은 구글폼 리드수집용. 퍼널이 강의·플랫폼·종이책까지 "}, {"handle": "@simsim.ai", "url": "https://www.threads.com/@simsim.ai", "fol": 4281, "sells": "확실", "prod": "AI 로고 수익화 전자책(메인인컴 전자책 PDF) + 강의(VOD) + 프롬프트팩 병행 판매. 'AI x 로고 사업'", "funnel": "댓글 '신청' + 좋아요·팔로우·리포스트 → DM 링크 배포. 바이오 vo.la → 무료 특강 신청. '딱 이틀/7일만 무료' 희소성", "top": "AI 수익화 전자책 무료배포글 245L / 319R / 184RP", "ev": "전자책+강의+프롬프트팩을 함께 파는 '병행' 케이스(과제 조건 부합). 배포 이벤트 답글 319으로 퍼널 작동 확인. 우리처럼 '무료 미끼→유료 본상품' 2단 구조가 명확."}, {"handle": "@iam_peter7979", "url": "https://www.threads.com/@iam_peter7979", "fol": 3577, "sells": "확실", "prod": "유튜브 수익화 전자책('많은 분들이 요청한 전자책'). 강의는 안 하고 전자책+무료강의만 하겠다는 포지션", "funnel": "프로필링크(litt.ly/iampeter) + '전자책 출간 전 체험단 3명 모집'식 참여 유도. 안티-강팔이 콘텐츠로 차별화", "top": "'4만원만 투자해/강팔이 저격' L110/R17/RP21/S23, 애드센스 전자책 저격글 L27/R8", "ev": "'수백만원 강의 사기당하지 말고 클로드·GPT 유료결제해서 써봐, 강팔이가 내 꿀팁 훔쳐간다'는 안티-강의 프레임으로 신뢰를 사고 자기 전자책으로 유도하는 역발상 퍼널. 유튜브 월 1980달러 실측·채널 실명 공개로"}, {"handle": "@ebook_hampro", "url": "https://www.threads.com/@ebook_hampro", "fol": 2215, "sells": "확실", "prod": "무료 80p 전자책 '전자책 자동수익 시스템의 비밀' → 유료 전자책/코칭(6권 저술, 월 1,000만원 판매 주장)", "funnel": "고정 소개글 '프로필 링크 80p 무료 전자책 먼저 읽어봐' → bit.ly 무료 전자책 → 유료", "top": "138L/46R/58RP/1S", "ev": "작은 계정(2,215)이지만 퍼널이 정교해 사장님 상황(구독 200 미만)에 가장 참고가치 높음. '실제 매출 공개' + 무료 80p 리드마그넷으로 신뢰 선점하는 전형적 전자책 코치 모델. 글쓰기 팁(두괄식·초안법 "}, {"handle": "@choi_6po", "url": "https://www.threads.com/@choi_6po", "fol": 1897, "sells": "확실", "prod": "전자책 1권 + 템플릿 1개 판매(크몽·탈잉 등에 위탁). 1년 8개월 누적매출 400만원 실측 공개", "funnel": "프로필링크(litt.ly/choi6po) + 1,500명 톡방 + 무료 줌강의 39회 주최(세모존 호스트). 전자책은 판매플랫폼에 맡기고 CS만", "top": "이모지 자기소개 L118/R51/RP8, '전자책 꼭 추천' 매출공개글 L63/R27/RP4/S2", "ev": "'전자책 쓸 때만 몰입하고 크몽·탈잉이 알아서 판다, 매달 꾸준한 수입원'이라는 실사용 후기가 값짐 — 과장 없이 400만원이라는 작은 실측을 공개. 부업 다각화형(무인카페·육포·톡방)이지만 전자책이 지식자산 파이프"}, {"handle": "@shorts__doctor", "url": "https://www.threads.com/@shorts__doctor", "fol": 1531, "sells": "확실", "prod": "해외쇼츠 부업 전자책 82p (정가 50만원 → 이틀만 무료 배포) · 쇼츠대행 프로세스", "funnel": "바이오 오픈카톡 open.kakao.com/o/gEdlREsi 직행. '50만원짜리 전자책 이틀만 무료 → 댓글 남기면 순서대로 DM' 희소성·마감 압박형", "top": "'2달만에 14만 구독자' L122 R5 RP8 S5 / 무료 82p 마감글 L1 R2", "ev": "'월1억 연구소 소장·누적수강생 8432명·누적매출1억+' 자칭. 정가(50만원)를 명시하고 '이틀만 무료'로 앵커링+희소성을 거는 세일즈 카피가 교과서적. 오픈카톡 직결로 리드를 카톡방에 가둔 뒤 유료 전환하는 구"}, {"handle": "@blog_kj91", "url": "https://www.threads.com/@blog_kj91", "fol": 1471, "sells": "확실", "prod": "블로그 수익화 전자책('80일만에 1억 벌고 작성한 블로그 수익화 전자책'). 부부가 SNS로 생계, 네이버 블로그 각도", "funnel": "전자책 662명 무료 배포(메일 신청) → 팔로우 유도. 고정글에 스펙·성과 나열로 신뢰 구축", "top": "고정 스펙 인증글 60L / 29R / 15RP", "ev": "'블로그 수익화 전자책 662명 신청·전송완료' 글로 실제 배포 규모가 실측됨. 전자책을 상품으로 명확히 보유. AI보다 블로그 각도지만 '작은 계정 정교한 퍼널' 사례로 부합."}, {"handle": "@omega__mom", "url": "https://www.threads.com/@omega__mom", "fol": 1441, "sells": "확실", "prod": "'전자책 만드는 법 PDF'(ChatGPT→Canva→Beacons 판매 시작 방법) 배포 + 키즈 워크북/디지털 상품 판매(beacons $10). 온라인디지털사업·N잡맘", "funnel": "댓글 '전자책' → PDF DM 배포. 바이오 beacons.ai 스토어 → 워크북 유료 판매. 인스타·쓰레드 크로스포스트", "top": "전자책 만들기 PDF 배포글 15L / 55R / 5RP", "ev": "'ChatGPT로 목차→Canva 디자인→Beacons 올려 판매 시작' 실제 전자책 제작·판매 경험을 상품(PDF)으로 되팖. beacons 스토어에 유료 디지털상품 실재. 육아맘 타겟 + AI도구 각도로 부합."}, {"handle": "@pulplewhale", "url": "https://www.threads.com/@pulplewhale", "fol": 1408, "sells": "확실", "prod": "전자책 4권 제작(크몽·탈잉·북크크 활용). AI·전자책·강의·자동화 콘텐츠", "funnel": "프로필링크(pulplewhale.linkstory.co.kr). 매일 AI도구 사용법 카드뉴스로 권위 축적→전자책·강의로 연결", "top": "ChatGPT Work 활용법 L21/R9/RP7, 'POD 플랫폼 정리'·'전자책 4권 후기' L28/R4/RP7/S4", "ev": "'출판사 없이 전자책 4권 만들며 깨달은 것, 크몽·탈잉·북크크에 올릴 플랫폼은 이미 있다'며 판매처를 구체적으로 언급. 최근 피드는 AI도구 카드뉴스(NotebookLM·ChatGPT Work) 위주로 리드 축적 "}, {"handle": "@incri.va", "url": "https://www.threads.com/@incri.va", "fol": 1329, "sells": "확실", "prod": "브랜딩·마케팅 전자책 (선착순 500명 무료 → 원래 유료판매 예정) — 최종상품은 홈페이지 제작 서비스", "funnel": "고정글: 좋아요+팔로우+리포스트+댓글'전자책 신청'→ 한 분씩 DM. 바이오 litt.ly/incriva → 홈페이지 제작 상담. 전자책=리드마그넷, 서비스=본상품", "top": "고정 무료배포글 L257 R434 RP218 S19 (2편째 '순차 DM' L8 R2 RP1)", "ev": "팔로워 1.3천의 작은 계정인데 무료배포 고정글이 R434로 답글 폭발 — 작아도 퍼널이 정교하면 터진다는 우리에게 가장 값진 사례. '선착순 500명·조기종료' 희소성, 얻는 것 3가지 불릿, 3단계 참여법까지 카"}, {"handle": "@__on.d", "url": "https://www.threads.com/@__on.d", "fol": 1120, "sells": "확실", "prod": "콘텐츠 마케팅 원데이 클래스(forms.gle 유료 강의, VOD+포폴첨삭). 6년차 스타트업 콘텐츠 마케터", "funnel": "팔로우+댓글키워드('피그마')→다음날 밤 9시 DM 일괄발송. 117p 피그마 전자책 무료나눔", "top": "L280 / R989 / RP112 / S16 (피그마 전자책 무료나눔)", "ev": "작은 계정(1.1천)인데 무료 피그마 전자책 나눔글이 R989로 터짐 — 우리에게 값진 소형 성공사례. 한 단어 문지방('피그마')+DM 배포로 리드 확보 후, 별도 글에서 유료 원데이 클래스(forms.gle)로 "}, {"handle": "@top.copyy", "url": "https://www.threads.com/@top.copyy", "fol": 761, "sells": "확실", "prod": "전자책 제작 + '전자책으로 월급 자동화'. 전자책→강의→컨설팅 확장 설계", "funnel": "프로필+본문 링크(copy-tree.com/Service). '스마트스토어·크몽에 올리고 블로그·SNS로 알린다'는 판매 경로를 콘텐츠로 공개", "top": "'전자책으로 돈 벌고 싶다면' 매뉴얼 L21/R4/RP11/S1", "ev": "팔로워 761의 소형 계정이지만 프로필에 자기 서비스몰(copy-tree.com)을 걸고 전자책→강의→컨설팅 퍼널을 명시적으로 설계. '50% 완성되면 시장에 던져라' 같은 실행 콘텐츠로 지식사업 컨설턴트 포지션. "}, {"handle": "@devdesign.kr", "url": "https://www.threads.com/@devdesign.kr", "fol": 10000, "sells": "추정", "prod": "바이브코딩 무료 전자책 (데스크탑 앱 만드는 법) → 유료 스터디/코칭", "funnel": "고정형: 좋아요+팔로우+리포스트+댓글'나도'→ DM으로 무료 구매링크. 평소 글 말미에 '마지막에 무료 전자책도 공유'로 미끼 삽입 → 바이오 litt.ly/beno → 1년반 운영 스터디", "top": "무료 전자책 배포글 L459 R510 RP322 S30 / 'Claude Code 이렇게 써보셈' L1.8천 R141 RP784 S1.2천", "ev": "SNU 컴공 석사 타이틀로 신뢰 세팅. 정보성 대박글(L1.8천, RP784)로 도달을 뚫고 글 말미에 무료 전자책을 미끼로 얹어 스터디로 흘리는 구조. 전자책은 무료판 리드마그넷이고 본 수익은 스터디/코칭으로 추정"}, {"handle": "@dino_nogada", "url": "https://www.threads.com/@dino_nogada", "fol": 2544, "sells": "추정", "prod": "스레드 성장&수익화 전자책(쿠파스·CPC·CPA 제휴마케팅) — '전자책 쓰고 있음, 여태 여러 개 써봄' 명시. 작성·판매 진행형", "funnel": "litt.ly 프로필 링크. 'DM·개별질문 안 받음' → 링크로만 유입 유도. 무료 실전팁으로 신뢰 축적 후 전자책 연결", "top": "쿠파스 100만원 만드는 법 358L / 118R / 151RP (계정 최근조회 105.4만)", "ev": "팔로워 2.5천인데 최근조회 105만 — 글 단위 도달이 폭발적(작은 계정 성공사례로 값짐). 수익화 실전 매뉴얼로 저장·리포스트(RP151) 유도, 전자책으로 수렴. 다만 '유료 판매 중'보다 '작성 중' 단계라 "}, {"handle": "@ai.ondo", "url": "https://www.threads.com/@ai.ondo", "fol": 1833, "sells": "추정", "prod": "'AI 유튜브 음악채널 만들기' 전자책 — 2025년 내내 '마무리 단계'로 예고했으나 출시/판매 증거 확인 안 됨", "funnel": "팔로우 유도만. 판매 링크·배포 이벤트 없음(예고 단계에서 멈춤)", "top": "22L/11R/5RP", "ev": "알려진 경쟁자 3인 중 하나라 실측함 → 사실상 휴면. 마지막 글 2025-02-20, 그 이후 8개월+ 무활동. 전자책은 '100장 넘어간다'며 계속 예고만 하고 실제 출시 흔적 없음. 최근 조회수 2,603. 우"}, {"handle": "@aa_marketing12", "url": "https://www.threads.com/@aa_marketing12", "fol": 1558, "sells": "추정", "prod": "AI 부업 전자책(원래 유료 판매, '돈받고 파는 전자책 무료로 나눠줬다' 주장). 스레드·마케팅·바이브코딩 부업", "funnel": "댓글키워드('ai')→나눔. '계정 신고먹고 정지→재개설 후 다 푼다' 저격 서사", "top": "L918 / R4천 / RP287 / S85 (계정 신고먹고 정지당함 → 다 풀어버린다)", "ev": "이번 조사 단일글 최고 반응(R4천). '돈받고 파는 전자책을 무료로 나눠줬다고 경쟁자가 신고해서 정지당함, 열받아서 재개설하고 다 푼다'는 순수성 저격 서사(K7)로 폭발. 판매 실체는 본인 주장 기반이라 추정. "}, {"handle": "@ondam.secondincome", "url": "https://www.threads.com/@ondam.secondincome", "fol": null, "sells": "추정", "prod": "'수익형 전자책' — 평범한 직장인의 전자책 첫 수익기/전자책 작성법 판매. 직장인 부업·1인 브랜딩·지식창업 각도", "funnel": "카드뉴스(맛보기) → '프로필 링크에서 전체 내용 확인' → 전자책 구매. 인스타식 해시태그 다수(#수익형전자책 #전자책팔기)", "top": null, "ev": "검색 노출글에서 '평범한 직장인이 첫 전자책으로 100명 독자' 맛보기 카드뉴스 + 프로필 링크 판매 유도를 관측. 전자책 작성법 자체를 상품화한 순수 전자책 판매형. 프로필은 미개봉이라 팔로워·반응 수치 null,"}];
+const DEEP = {"headline": "실측 median 모객 40%로 겉보기엔 우리 29%가 낮지만, 그 40%는 '모객 고정글+생존편향'으로 부풀린 값이다. 편향 적은 clean-timeline 계정과 우리 규모대(중형) median은 12.5~25%라 29%는 실측 범위(0~66%) 한가운데에 안전히 든다. 실측이 반박하는 건 우리 '비율'이 아니라 '모객 리드마그넷을 고정글로 안 박아둔 것'이다.", "ratio": {"median_모객판매_pct": 40, "range": "0% ~ 66.7% (9계정, 일상 제외 분모)", "by_tier": "대형(10k+): zerocheon50·sienna25·human57 → median 50%, 단 zerocheon/human은 생존편향·고정글 인플레로 과대. 중형(2k~6k, 우리와 가장 가까운 규모): sangwon0·glitter0·ebook_hampro25·jini40 → median 12.5%(우리 29%보다 낮음!). 소형(1k대): incri66.7·__on.d50 → median 58%지만 둘 다 비-전자책 서비스업(홈페이지·상세페이지 수주)이라 모객밀도 구조적으로 높음, 우리 직접이식 부적합.", "by_role": "최강퍼널(대형 리드마그넷머신 sienna/zerocheon/human): 25~57%. 그러나 이 셋의 핵심은 '비율'이 아니라 모객 고정글 상시화+예열 통째공개 운영이고, 콘텐츠단위로 dedup하면 sienna 25%가 실제값에 가장 가깝다. 우리시장(전자책·AI수익화 중형 ebook_hampro/jini/glitter/sangwon): 0~40%로 편차 큼 — 노하우 통째공개형(glitter)은 모객0, 게이팅형(jini)은 모객40. 소형참고(비전자책 서비스 incri/__on.d): 50~66%, 수주형이라 참고만.", "cadence": "공통 패턴: 아무도 모객을 매일 안 쏜다. 활동일 하루 1~3 스레드(멀티파트), 몰아치기/버스트가 지배적. 타임라인은 예열로 굴리고 모객은 고정글+가끔. sienna 2~4일에 1개, glitter 활동일 1~3, zerocheon 하루3~4(48h후 삭제). 대부분 계정이 로드 절단으로 정밀 주기는 추정.", "verdict_on_our_29pct": "9계정 raw median 40% > 우리 29% → 겉보기엔 우리가 보수적. 그러나 그 40%는 검증자들이 반복 경고한 대로 고정글·생존편향(zerocheon 48h삭제, human 7개월 고정글, jini clean-feed)으로 모객이 구조적 과대계상된 값이다. 편향 적은 clean-timeline 계정(sienna 25%·ebook_hampro 25%·glitter 0%)과 우리 규모대(중형) median 12.5%를 기준 삼으면 29%는 정상~약간 높은 편. 결론: 29%는 실측 범위 한가운데(0~66%)에 안전히 들어가며, 올릴 근거도 내릴 근거도 약하다. 숫자 자체는 방어가 아니라 그냥 문제가 아니다.", "evidence": "sangwon 예열4/모객0 = 0% | jini 예열3/모객2 = 40% | glitter 예열10/모객0/일상2 = 0% | incri 예열2/모객2/판매2 = 66.7% | __on.d 예열2/모객2 = 50% | ebook_hampro 예열3/모객1 = 25% | zerocheon 예열3/모객3 = 50% | sienna 예열3/모객1 = 25% | human 예열3/모객4 = 57.1%"}, "accounts": [{"handle": "sangwon.ropefree", "followers": 5328, "ratio": "예열4/모객0/판매0/일상0", "모객판매_pct": 0, "cadence": "최근 하루 1개(고정글 후 11개월 공백, 노출 4개뿐)", "pinned": "예열 고정글(AI음원 커버 대량 그리드). 타임라인 반복재사용 없음", "signature": "노하우 0공개·결과+서사만 과시, 모객은 전부 바이오 무료강의로 오프로드", "verdict": "신뢰가능(표본 4개 극소, 퍼널은 오프플랫폼)"}, {"handle": "jini_bini2024", "followers": 4565, "ratio": "예열3/모객2/판매0/일상0", "모객판매_pct": 40, "cadence": "몰아쓰기 clean-feed(6일 4글), 코호트 열 때만", "pinned": "모객 고정글(왕초보 AI음악 챌린지) 1년 에버그린 + 후기캡처를 새 글에 재사용", "signature": "핵심 팁은 '나중에 풀어줄게'로 게이팅, 같은 챌린지 코호트마다 재가동", "verdict": "부분수정(idx4 모객→예열)"}, {"handle": "glitter_ai_factory", "followers": 5678, "ratio": "예열10/모객0/판매0/일상2", "모객판매_pct": 0, "cadence": "불규칙 버스트, 활동일 하루 1~3 멀티파트 쓰레드", "pinned": "고정글 없음", "signature": "노하우 통째공개(brew 설치명령까지)·본문 CTA 0, 수익화 litt.ly로만 — 단 자기 글서 모객퍼널 운영 자백(0%는 2일창 아티팩트)", "verdict": "신뢰가능(최근성 절단, 0% 과대추론 주의)"}, {"handle": "incri.va", "followers": 1329, "ratio": "예열2/모객2/판매2/일상0", "모객판매_pct": 66.7, "cadence": "bimodal, 4.5개월 공백 후 재가동(전수 6글)", "pinned": "모객 고정글(마케팅 전자책 무료배포 2주). 반복재사용 없음", "signature": "9계정 중 유일 타임라인 판매글(홈페이지 서비스, 결제는 DM으로)·비-전자책 서비스업", "verdict": "신뢰가능(전수 6개, 히스토리 대표성 낮음)"}, {"handle": "__on.d", "followers": 1120, "ratio": "예열2/모객2/판매0/일상0", "모객판매_pct": 50, "cadence": "매우 저빈도(4개월 4글), 사실상 휴면", "pinned": "모객 고정글(교육업 상세페이지 수주 영업). 반복재사용 없음", "signature": "노하우 통째공개(ImageFX 6단계 전공정)·전자책 없는 콘텐츠마케터 수주형", "verdict": "신뢰가능(전수 4개)"}, {"handle": "ebook_hampro", "followers": 2214, "ratio": "예열3/모객1/판매0/일상0", "모객판매_pct": 25, "cadence": "4일에 1개 뒤 16개월 휴면", "pinned": "모객 고정글(내 소개+매출인증+80p 무료전자책). 반복재사용 없음", "signature": "우리시장 최근접(전자책 코치)·노하우 통째공개·고정글 1개가 상시퍼널 대행+피드는 저마찰 예열", "verdict": "신뢰가능(전수 4개)"}, {"handle": "zerocheonclub", "followers": 10000, "ratio": "예열3/모객3/판매0/일상0", "모객판매_pct": 50, "cadence": "하루 3~4개, 48시간 후 본인 삭제 운영", "pinned": "모객 고정글(마케팅 전자책 무료나눔) 25일째 + 동일 배포템플릿을 상품(부가세책)만 바꿔 재사용 ★", "signature": "리드마그넷 머신·부가세 목차 8챕터 통째공개·생존편향 심함(살아있는 글=고정 모객만)", "verdict": "부분수정(idx4 모객→예열, 생존편향 경고)"}, {"handle": "sienna__ai", "followers": 25000, "ratio": "예열3/모객1/판매0/일상0", "모객판매_pct": 25, "cadence": "롱 멀티파트(4~8편) 2~4일에 1개, 매일X 몰아치기O", "pinned": "모객 고정글(클로드 디자인 전자책 무료배포) 3개월 에버그린, 조회 6.6만 누적 ★", "signature": "최강퍼널이나 타임라인은 '답 다 줬다 저장해라' 통째공개 예열·전환은 고정글/카톡오픈챗/litt.ly로 분리", "verdict": "신뢰가능(콘텐츠단위 dedup, 4스레드)"}, {"handle": "human__bro", "followers": 71000, "ratio": "예열3/모객4/판매0/일상0", "모객판매_pct": 57.1, "cadence": "하루 1~3 스레드(추정, 로드 절단으로 최근 1일치만)", "pinned": "모객 고정글(휴먼브로 저점 매수하기) 7개월째 + '전자책 무료나눔' 토픽태그 재사용 ★", "signature": "초대형·Codex 프롬프트 8종 전문 통째공개·57%는 고정글 인플레+최신압축 탓 과대(고정글 빼면 예열우위)", "verdict": "부분수정(idx3 모객→예열, 고정글 인플레 경고)"}], "playbook": [{"name": "모객 리드마그넷을 고정글로 박아 몇 달 재사용", "finding": "확인됨 — 이번 전수 데이터의 가장 강한 신호. 9계정 중 7계정이 고정글을 쓰고, 그 7개 중 6개가 모객(리드마그넷) 고정글이다(예외: sangwon만 예열 고정글, glitter는 고정글 없음). 유지기간 3개월~1년(jini 1년·sienna 3개월·human 7개월·zerocheon 25일). zerocheon은 여기서 더 나아가 배포 템플릿을 상품만 바꿔 재사용.", "evidence": "6/9 계정이 모객 고정글 상시화(jini·incri·__on.d·ebook_hampro·zerocheon·sienna·human 중 모객 고정글). sienna 고정글 단독 조회 6.6만·리포 1천 누적, human 7개월, jini 1년 에버그린", "confidence": "강", "for_us": "우리 카드엔 데뷔글(H8) 고정만 있고 '모객 고정글' 개념이 없다 — 최대 공백. 우리 기본조합(K7+K3역+K1, 오카방 인원 0)을 프로필 고정글 1개로 박고 몇 달 유지. 그러면 주간 모객 4개 중 새로 쏘는 건 3개로 줄고 1개는 상시 고정글이 대행 → 타임라인 예열 밀도가 올라가면서도 모객 노출은 유지된다"}, {"name": "예열 글에서 노하우를 통째로 공개(특히 대형일수록)", "finding": "부분확인 — 시장이 둘로 갈린다. 통째공개형 6(glitter brew명령까지·__on.d ImageFX 6단계·ebook_hampro 글쓰기4단계·zerocheon 목차8챕터·sienna '답 다 줬다'·human 프롬프트 8종 전문) vs 게이팅형 3(sangwon 방법0·jini '나중에 풀게'·incri 목차만). 결정적: 대형/승자 3계정(sienna 25k·human 71k·zerocheon 10k)은 전부 통째공개, 게이팅형은 전부 중소형. '아끼는 계정이 이긴다'는 근거는 데이터에 없다.", "evidence": "6/9 통째공개, 대형 3/3 통째공개. 게이팅형(sangwon·jini·incri)은 팔로워 1.3k~5.7k 중소형", "confidence": "강", "for_us": "예열 10개(H1~H10)에서 노하우를 아끼지 마라 — 히트 실측(CTR5.7·통과율82)·실제 프롬프트·공정·실패담을 통째로. rules.md '전자책 한 조각만'과 충돌 안 함(전자책 본문이 아니라 공정/실패담을 푸는 것). 게이팅은 우리 규모에서 오히려 불리"}, {"name": "타임라인 본문에서 판매(가격·결제)를 하지 않는다", "finding": "확인됨 — 전자책 계정 7곳(incri 제외) 타임라인 판매글 0건. 판매로 분류된 유일 계정 incri.va조차 결제는 화면 밖 DM으로 넘긴다. 전환은 전부 오프플랫폼(litt.ly·카톡오픈챗·DM). 즉 쓰레드는 순수 상단퍼널(모객·예열)이고 돈 얘기는 링크 뒤에서 일어난다.", "evidence": "9계정 판매글 총 2건(둘 다 incri, 홈페이지 서비스). 전자책 계정 판매글 0. 가격은 전부 litt.ly/카톡/DM 뒤 미노출", "confidence": "강", "for_us": "우리 모객카드가 이미 본문링크·금액 금지 중 — 실측이 이를 강하게 지지한다. 유지·강화. 그로블/판매는 절대 본문에 두지 말고 DM 페이로드로. 우리 진실성 가드(수익실적 0)와도 정합"}, {"name": "모객을 매일 안 쏜다 — 예열로 타임라인을 굴리고 모객은 버스트/고정", "finding": "확인됨 — 어느 계정도 모객을 매일 연속 발행하지 않는다. 활동은 몰아치기(sienna 2~4일 1개, glitter 버스트, zerocheon 48h휘발). 예열이 도달을 만들고 모객은 고정글+가끔. 이는 우리 rules.md 'D 10% 넘으면 광고계정' 가설을 실측이 뒷받침.", "evidence": "sienna 07-09(1)·07-13(2) 몰아올림, glitter 활동일 하루1~3 멀티파트, human 최근 하루에 집중. 연속 모객 스팸 계정 0", "confidence": "중", "for_us": "모객 연속 배치 금지(deliver.py가 이미 기계적으로 막음) 유지. '예열이 모객의 탄약' 문구 실측 지지 확보 — 비율 올리려 조급해하지 말 것"}], "verdict": {"keep": "모객:예열 = 4:10(29%) 기본 비율과 예열 우위 구조는 유지. 실측 범위(0~66%) 한가운데이고, 편향 적은 clean 계정(25%)·우리 규모대 median(12.5%)에 비춰 정상~약간 높은 수준이라 바꿀 근거가 약하다. '모객 연속금지·예열이 탄약' 원칙도 실측이 지지.", "change": "카드에 '모객 리드마그넷 고정글' 개념을 신설한다(현재 데뷔글 고정만 있고 최대 공백). 주간 모객 4개를 매번 새로 쏘는 구조 대신, 기본조합(K7+K3역+K1)을 프로필 고정글 1개로 박아 몇 달 상시화 + 새로 발행하는 모객은 주 3개로. 실측 승자 6/6이 모객 고정글을 쓴다. 판매 본문금지는 이미 있고 실측이 강하게 지지하니 유지·강화.", "new_number": "비율은 25~29% 유지(상한 40% 넘기지 말 것 — 그 위는 survivorship 편향 값). 발행 배분을 '모객 신규 3 + 모객 고정글 1(상시) : 예열 10'으로 재표기 제안. 근거 축적 전까지 비율 자체는 손대지 않음.", "reason": "1번 질문 답: 실측은 우리 29%를 반박하지 않는다 — raw median 40%는 우리보다 높지만 그 값이 고정글·생존편향으로 부풀었다는 걸 검증자들이 반복 경고했고, 편향을 걷어낸 clean 계정은 25%다. 즉 29%는 지지도 강한 반박도 아닌 '문제없음'. 진짜 개선점은 비율 조정이 아니라, 승자 전원이 하는 '모객 고정글 상시화'를 우리가 안 하고 있다는 것이다."}, "limits": "표본 9개·2026-07 특정시점 스냅샷·한국어 AI수익화/전자책 니치 한정이라 통계적 일반화 불가. (1) 각 계정 표본이 census여도 극소(4~12개)이고, 대부분 계정이 고정글 상시노출·생존편향(zerocheon 48h삭제·human 7개월 고정글·jini/incri clean-feed)으로 모객이 구조적으로 과대계상 → 실제 running-timeline 비율은 median 40%보다 낮을 개연 큼(그래서 40%를 목표로 삼으면 안 됨). (2) 가격·판매는 전부 litt.ly/카톡/DM 뒤 미확인 → 판매=0은 '확인된 부재'가 아니라 '화면 밖'이며, 실제 판매 강도·전환율은 이 표본으로 측정 불가. (3) 조건 불일치: 이들 대부분 팔로워 수천~7만·매출/수강생 실적 보유(sienna 누적10억·human 7.1만·zerocheon 4900명). 우리는 구독 200 미만·전자책 무료판만·수익 0 → 대형의 모객 배율과 '월 500/누적 10억' 신뢰장치를 우리가 복제 못 함(진실성 가드). (4) incri·__on.d는 전자책이 아니라 홈페이지·상세페이지·콘텐츠마케팅 수주업 → 모객밀도 높은 게 당연, 우리 비율 근거로 직접 쓰면 안 되는 소형참고군. (5) 발행주기 수치는 대부분 무한로딩 절단으로 추정치. (6) 우리 자체 누적 로그가 0건 — K1~K8·비율은 여전히 남의 계정 실측이고, 우리 계정에 맞는 진짜 근거는 첫 사이클 R이 쌓여야 나온다."};
 
 // ── 비율 계산: 무료배포/모객형 vs 순수정보형 (funnel 텍스트 기반 근사)
 const total = DATA.length;
@@ -122,11 +160,8 @@ const linkFunnel = DATA.filter(d => (d.funnel||'').match(/프로필|litt|링크|
 const tiny = DATA.filter(d => d.fol && d.fol <= 2500).length;
 
 document.getElementById('ratioBox').innerHTML =
-  '<b>❓ "남들은 예열과 모객을 어떤 비율로 섞나?" — 이번 조사로는 아직 단정 못 함.</b><br>' +
-  '계정별 최근 글 30개 전수 분류는 한도 문제로 중단됐다(발굴·프로필 단계까지 완료). ' +
-  '대신 <b>퍼널 구조는 확실히 드러났다</b>: 무료배포(모객) 이벤트는 <b>매일 하는 게 아니라 고정글·주기적 배포</b>로 운영하고, ' +
-  '평소 글은 프롬프트·노하우를 통째로 푸는 <b>정보성 예열</b>이다. 우리 4:10 격자의 방향(예열 다수·모객 소수)은 맞되, ' +
-  '핵심은 비율보다 <b>"모객 글을 고정글로 박아두고 반복 재사용"</b>하는 운영법이었다.';
+  '<b>✅ 계정별 30개 전수 분류 완료</b> — 9곳·53글을 하나씩 분류하고 검증했다. 아래 실측 섹션에 답이 있다. ' +
+  '한 줄 요약: <b>우리 29%는 문제없고, 진짜 놓친 건 "모객 미끼글을 프로필에 고정해 몇 달 재사용"하는 운영법이다.</b>';
 
 // ── KPI 타일
 const tilesHtml = [
@@ -136,6 +171,58 @@ const tilesHtml = [
   ['최고 단일글', '4천', 'R (@aa_marketing12)'],
 ].map(([l,n,u]) => `<div class="tile"><div class="n">${n}<small> ${u}</small></div><div class="l">${l}</div></div>`).join('');
 document.querySelector('.verdict').insertAdjacentHTML('afterend', `<div class="tiles">${tilesHtml}</div>`);
+
+// ══════════ 실측: 예열/모객 비율 (9계정 전수 분류) ══════════
+const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// 검증된 팔레트(다크): 모객=초록 판매=자홍 예열=파랑 일상=노랑
+const KC = { '모객':'#008300', '판매':'#d55181', '예열':'#3987e5', '일상':'#c98500' };
+function parseRatio(s){ // "예열4/모객0/판매0/일상2"
+  const o = {예열:0,모객:0,판매:0,일상:0};
+  (s||'').split('/').forEach(p => { const m = p.match(/(예열|모객|판매|일상)(\d+)/); if(m) o[m[1]] = +m[2]; });
+  return o;
+}
+
+// 답 배너
+document.getElementById('ratioAnswer').innerHTML =
+  `<div class="answer"><div class="q">Q. 남들은 예열과 모객을 어떤 비율로 섞나?</div>
+   <div class="a">${esc(DEEP.ratio.verdict_on_our_29pct)}</div></div>`;
+
+// 범례
+document.getElementById('legend').innerHTML =
+  ['모객','판매','예열','일상'].map(k =>
+    `<span><i style="background:${KC[k]}"></i>${k}</span>`).join('') +
+  `<span style="margin-left:auto;color:#8a93a3">막대 = 최근 글 분류 · 왼쪽부터 모객·판매(=요구)</span>`;
+
+// 계정별 스택 막대 (모객판매_pct 내림차순)
+const accs = [...DEEP.accounts].sort((a,b)=>(b.모객판매_pct||0)-(a.모객판매_pct||0));
+document.getElementById('bars').innerHTML = accs.map(a => {
+  const r = parseRatio(a.ratio);
+  const tot = r.모객+r.판매+r.예열+r.일상 || 1;
+  const seg = (k)=> r[k] ? `<div class="sseg" style="background:${KC[k]};flex:${r[k]}" title="${k} ${r[k]}"></div>` : '';
+  const fol = a.followers ? (a.followers>=10000?(a.followers/10000).toFixed(a.followers%10000?1:0)+'만':(a.followers/1000).toFixed(1)+'천') : '?';
+  return `<div class="brow">
+    <div class="blab">${esc(a.handle)}<br><small>${fol} · ${esc(a.ratio)}</small></div>
+    <div class="sbar">${seg('모객')}${seg('판매')}${seg('예열')}${seg('일상')}</div>
+    <div class="bpct">${a.모객판매_pct==null?'?':a.모객판매_pct}<small>%</small></div>
+  </div>`;
+}).join('') +
+  `<div class="refline"></div>
+   <div class="brow"><div class="blab" style="color:#ffd666;font-weight:700">우리(그밤PD)<br><small>모객 4 : 예열 10</small></div>
+    <div class="sbar"><div class="sseg" style="background:#008300;flex:29"></div><div class="sseg" style="background:#3987e5;flex:71"></div></div>
+    <div class="bpct" style="color:#ffd666">29<small>%</small></div></div>`;
+
+document.getElementById('chartnote').innerHTML =
+  `<b>모객판매% = (모객+판매) ÷ (전체−일상).</b> 9계정 raw 중앙값 <b>40%</b>지만, 검증 결과 이 값은 ` +
+  `<b>고정글·생존편향</b>(zerocheon 48h 삭제·human 7개월 고정글)으로 부풀려진 값이다. ` +
+  `편향 적은 clean 계정(sienna·ebook_hampro 25%)과 우리 규모대(중형) 중앙값 <b>12.5%</b>를 기준 삼으면 ` +
+  `우리 29%는 정상~약간 높은 편. <b>올릴 근거도 내릴 근거도 약하다.</b>`;
+
+// 운영법
+document.getElementById('playbook').innerHTML = DEEP.playbook.map(p =>
+  `<div class="pattern pb"><div class="pt">${esc(p.name)}<span class="conf ${p.confidence}">확신 ${p.confidence}</span></div>
+   <div class="fd">${esc(p.finding)}</div>
+   <div class="ev">근거 · ${esc(p.evidence)}</div>
+   <div class="for">${esc(p.for_us)}</div></div>`).join('');
 
 // ── 패턴 (실측 근거)
 const PATTERNS = [
@@ -201,17 +288,14 @@ document.querySelectorAll('.fbtn').forEach(b => b.onclick = () => {
 });
 render('all');
 
-// ── 우리 판정
-document.getElementById('ours').innerHTML = `
-<div class="pattern"><div class="pt">✅ 유지 — 방향은 맞았다</div>
-<div class="fd">예열 다수 · 모객 소수. 남들도 무료배포(모객)를 매일 하지 않고, 평소엔 노하우를 푸는 정보성 예열이다.</div></div>
-<div class="pattern"><div class="pt">🔧 바꿀 것 1 — 모객 글을 "고정글"로 만들어라</div>
-<div class="fd">우리는 큐에서 모객 글이 한 번 나가고 끝난다. 남들은 잘 터진 배포글을 <b>프로필에 고정</b>해두고 계속 유입받는다. 우리도 최고 반응 모객 글은 프로필 고정 후보로.</div></div>
-<div class="pattern"><div class="pt">🔧 바꿀 것 2 — 평소 글에 노하우를 더 통째로 풀어라</div>
-<div class="fd">@human__bro·@devdesign.kr의 엔진은 "아까워하지 않고 다 푸는" 정보글의 저장·리포스트다. 우리 예열 글도 '한 조각만'보다 실전 프로세스를 통째로 주는 쪽이 도달을 만든다.</div></div>
-<div class="pattern"><div class="pt">⛔ 우리가 못 쓰는 것 (진실성 가드)</div>
-<div class="fd">"월 1천만원·누적매출 10억" 류 수익 주장(@ebook_hampro·@sienna__ai) — 우리는 수익 실적이 없다. "정가 50만원→무료" 앵커링(@shorts__doctor)도 우리 무료판엔 정가가 없어 못 쓴다. 우리 무기는 <b>실제 채널 운영이라는 사실</b> 하나다(@sangwon.ropefree와 정면 경쟁 포인트).</div></div>
-`;
+// ── 우리 판정 (실측 종합 기반)
+const V = DEEP.verdict;
+document.getElementById('ours').innerHTML =
+  `<div class="pattern"><div class="pt">✅ 유지 — 비율은 문제없다</div><div class="fd">${esc(V.keep)}</div></div>` +
+  `<div class="pattern"><div class="pt">🔧 바꿀 것 — 모객 미끼글을 "고정글"로</div><div class="fd">${esc(V.change)}</div>` +
+    `<div class="for" style="background:#101c14;border-radius:8px;padding:8px 12px;font-size:12.5px;color:#9be8bb;margin-top:6px">${esc(V.new_number)}</div></div>` +
+  `<div class="pattern"><div class="pt">⛔ 우리가 못 쓰는 것 (진실성 가드)</div><div class="fd">"월 1천만원·누적매출 10억" 류 수익 주장(@ebook_hampro·@sienna__ai)·"정가 50만원→무료" 앵커링(@shorts__doctor) — 우리는 수익 실적이 없다. 우리 무기는 <b>실제 채널 운영이라는 사실</b> 하나다(@sangwon.ropefree와 정면 경쟁).</div></div>` +
+  `<div class="chartnote" style="margin-top:14px">⚠️ 한계 · ${esc(DEEP.limits)}</div>`;
 </script>
 </body>
 </html>
